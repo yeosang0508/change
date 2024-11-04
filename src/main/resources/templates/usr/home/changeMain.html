@@ -1,79 +1,42 @@
-<th:block th:replace="usr/common/head"/>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <th:block th:replace="usr/common/head"/>
     <title>Main</title>
     <link rel="stylesheet" href="/resource/css/main.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
-<!-- GPS Popup Logic -->
-<div th:if="${gpsChack != null}">
     <script>
-        let currentLatitude;
-        let currentLongitude;
+        $(document).ready(function () {
+            var $html = $("html");
 
-        function getCurrentLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    currentLatitude = position.coords.latitude;
-                    currentLongitude = position.coords.longitude;
-                    checkGpsCondition();
-                }, (error) => {
-                    console.error("Error getting location: ", error);
-                });
-            } else {
-                console.error("Geolocation is not supported by this browser.");
-            }
-        }
+            var page = 1;
+            var lastPage = $(".content").length;
 
-        function checkGpsCondition() {
-            const gpsChack = {
-                latitude: [[${gpsChack.latitude}]],
-                longitude: [[${gpsChack.longitude}]]
-            };
+            // 초기 스크롤 위치 설정
+            $html.animate({ scrollTop: 0 }, 10);
 
-            if (!gpsChack.latitude || !gpsChack.longitude) return;
+            // wheel 이벤트를 passive: false로 설정하여 preventDefault를 사용
+            $(window).on("wheel", { passive: false }, function (e) {
+                e.preventDefault();
 
-            if (gpsChack.latitude !== currentLatitude || gpsChack.longitude !== currentLongitude) {
-                document.querySelector('.gps_popup2').style.display = 'flex';
-            }
-        }
+                if ($html.is(":animated")) return;
 
-        window.onload = getCurrentLocation;
+                if (e.originalEvent.deltaY > 0) {
+                    if (page === lastPage) return;
+                    page++;
+                } else if (e.originalEvent.deltaY < 0) {
+                    if (page === 1) return;
+                    page--;
+                }
 
-        // Intersection Observer API를 사용하여 섹션이 보일 때 버튼을 전환합니다.
-        document.addEventListener("DOMContentLoaded", function () {
-            const largeButtons = document.getElementById("largeButtons");
-            const smallButtons = document.getElementById("smallButtons");
-
-            // Intersection Observer 설정
-            const observerOptions = {
-                threshold: 0.5  // 섹션의 50%가 화면에 들어왔을 때 트리거
-            };
-
-            // 콜백 함수
-            const observerCallback = (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // 스크롤 위치에 따라 버튼 전환
-                        if (entry.target.id === "section1") {
-                            largeButtons.classList.remove("tw-hidden");
-                            smallButtons.classList.add("tw-hidden");
-                        } else {
-                            largeButtons.classList.add("tw-hidden");
-                            smallButtons.classList.remove("tw-hidden");
-                        }
-                    }
-                });
-            };
-
-            // Observer 생성
-            const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-            // 각 섹션을 관찰 대상으로 추가
-            document.querySelectorAll("section").forEach(section => observer.observe(section));
+                var posTop = (page - 1) * $(window).height();
+                $html.animate({ scrollTop: posTop });
+            });
         });
+
     </script>
 </div>
 
@@ -81,7 +44,7 @@
 
 <main class="tw-w-full tw-flex tw-flex-col">
     <!-- 첫 번째 화면 (메인 화면) -->
-    <section id="section1" class="tw-w-full tw-h-screen tw-flex tw-items-center tw-justify-center tw-bg-[#F9F5EB]">
+    <section id="section1" class="content tw-w-full tw-h-screen tw-flex tw-items-center tw-justify-center tw-bg-[#F9F5EB]">
         <div class="custom-card tw-bg-[#EDE0D4] tw-rounded-xl tw-shadow-md tw-flex tw-h-[80%] tw-w-[80%]">
             <img class="tw-ml-10 tw-mt-10 tw-object-cover tw-rounded-lg" src="/resource/photo/main_dog.png"
                  alt="Dog Image">
@@ -97,7 +60,7 @@
     </section>
 
     <!-- 두 번째 화면 -->
-    <section id="section2" class="tw-w-full tw-h-screen tw-bg-[#FDEDD0] tw-flex tw-items-center tw-justify-center">
+    <section id="section2" class="content tw-w-full tw-h-screen tw-bg-[#FDEDD0] tw-flex tw-items-center tw-justify-center">
         <div class="tw-text-center">
             <h2 class="tw-text-4xl tw-font-bold tw-text-gray-700">반려견 훈련 정보</h2>
             <p class="tw-text-xl tw-mt-4">반려견 훈련에 필요한 다양한 정보와 팁을 제공합니다.</p>
@@ -105,7 +68,7 @@
     </section>
 
     <!-- 세 번째 화면 -->
-    <section id="section3" class="tw-w-full tw-h-screen tw-bg-[#FAF3E0] tw-flex tw-items-center tw-justify-center">
+    <section id="section3" class="content tw-w-full tw-h-screen tw-bg-[#FAF3E0] tw-flex tw-items-center tw-justify-center">
         <div class="tw-text-center">
             <h2 class="tw-text-4xl tw-font-bold tw-text-gray-700">커뮤니티</h2>
             <p class="tw-text-xl tw-mt-4">반려견과 관련된 다양한 정보를 공유하고 소통하는 공간입니다.</p>
@@ -113,7 +76,7 @@
     </section>
 
     <!-- 네 번째 화면 -->
-    <section id="section4" class="tw-w-full tw-h-screen tw-bg-[#E3DAC9] tw-flex tw-items-center tw-justify-center">
+    <section id="section4" class="content tw-w-full tw-h-screen tw-bg-[#E3DAC9] tw-flex tw-items-center tw-justify-center">
         <div class="tw-text-center">
             <h2 class="tw-text-4xl tw-font-bold tw-text-gray-700">24시 병원 정보</h2>
             <p class="tw-text-xl tw-mt-4">반려견의 긴급 상황을 위한 병원 정보를 안내합니다.</p>
