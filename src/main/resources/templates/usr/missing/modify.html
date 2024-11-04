@@ -1,0 +1,89 @@
+<th:block th:replace="usr/common/head"/>
+<head>
+    <title>실종신고 글수정</title>
+    <link rel="stylesheet" href="/resource/css/dogAdd.css"/>
+    <script src="/resource/js/dogAdd.js"></script>
+</head>
+<body>
+<div class="title">실종신고 글수정</div>
+<div class="profile tw-p-5">
+    <div class="profile_title" th:if="${member!=null}" th:text="${member.nickname}">사용자 정보</div>
+</div>
+<form action="/usr/missing/doModify" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" th:value="${missing.id}"/> <!-- hidden 필드로 ID 전달 -->
+
+    <div class="drop_area tw-relative">
+        <button type="button" class="image_button">이미지 업로드</button>
+        <p class="upload_text">또는 파일 놓기</p>
+        <input type="file" class="dog_photo" name="dog_photo" accept="image/*" style="display: none;">
+        <img class="preview tw-absolute" th:src="@{${missing.photo}}" alt="업로드된 이미지 미리보기" style="display: block;"/><br>
+        <button type="button" class="image_clear tw-absolute tw-cursor-pointer" onclick="preview_clear()">지우기</button>
+    </div>
+    <br>
+
+    <div class="dogAdd_title tw-p-5">실종일시 및 장소</div>
+    <div class="dogAdd_body tw-p-5">
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="reportDate">실종날짜</label>
+            <input type="date" class="tw-border-box tw-w-[190px] tw-text-center" id="reportDate" name="reportDate"
+                   th:value="${missing.reportDate.substring(0, 10)}" required><br>
+        </div>
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="reportTime">실종시간</label>
+            <input type="number" class="tw-border-box tw-w-[190px]" id="reportTime" name="reportTime"
+                   placeholder="24시간 기준" min="0" max="23" th:value="${missing.reportDate.substring(11, 13)}"
+                   required><br>
+        </div>
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="missingLocation">실종장소</label>
+            <input type="text" class="tw-border-box" id="missingLocation" name="missingLocation"
+                   th:value="${missing.missingLocation}" required><br>
+        </div>
+    </div>
+
+    <div class="dogAdd_title tw-p-5">동물 정보</div>
+    <div class="dogAdd_body tw-p-5">
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="name">이름</label>
+            <input type="text" class="tw-border-box" id="name" name="name" th:value="${missing.name}" required><br>
+        </div>
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="breed">품종</label>
+            <input type="text" class="tw-border-box" id="breed" name="breed" th:value="${missing.breed}" required><br>
+        </div>
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="color">색상</label>
+            <input type="text" class="tw-border-box" id="color" name="color" th:value="${missing.color}" required><br>
+        </div>
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="gender">성별</label>
+            <select class="tw-border-box" id="gender" name="gender" required>
+                <option th:value="${missing.gender}" th:text="${missing.gender}">암컷</option>
+                <option th:if="${missing.gender != '암컷'}" value="암컷">암컷</option>
+                <option th:if="${missing.gender != '수컷'}" value="수컷">수컷</option>
+            </select><br>
+        </div>
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="age">나이 (개월)</label>
+            <input type="number" class="tw-border-box tw-w-[145px]" id="age" name="age" min="0" max="2147483646"
+                   th:value="${missing.age}"><br>
+        </div>
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="RFID">마이크로칩(RFID)번호</label>
+            <input type="text" class="tw-border-box" id="RFID" name="RFID" th:value="${missing.RFID}"><br>
+        </div>
+    </div>
+
+    <div class="dogAdd_title tw-p-5">특징</div>
+    <div class="dogAdd_body tw-p-5">
+        <div class="tw-mt-5 tw-mb-5">
+            <textarea type="text" class="trait tw-border-box tw-p-5" id="trait" name="trait" required
+                      th:text="${missing.trait}"></textarea>
+        </div>
+    </div>
+    <div class="upload_button_wrapper">
+        <button type="submit" class="upload_button">작성</button>
+    </div>
+</form>
+</body>
+</html>

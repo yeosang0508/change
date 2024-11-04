@@ -1,0 +1,59 @@
+body {
+    background-color: #FFF3CD;
+    color: #4D3E3E;
+    white-space: normal;
+    word-break: keep-all;
+}
+
+.title {
+    text-align: center;
+    padding-top: 70px;
+    font-size: 50px;
+}
+
+.profile {
+    border-bottom: 1px solid;
+    margin: auto;
+    max-width: 1340px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile_title{
+    display: inline-block;
+}
+
+.misssing_write{
+    display: inline-block;
+    margin-left: auto;
+}
+
+.str{
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.misssing_list{
+    max-width: 1340px;
+    margin: auto;
+    padding-top: 100px;
+    font-size: 12px;
+}
+
+.misssing_item{
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    width: 250px;
+    background: #FFFEF0;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.misssing_image{
+    width: 230px;
+    height: 230px;
+    border-radius: 20px;
+    margin: 9px;
+}

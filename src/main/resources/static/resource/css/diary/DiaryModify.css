@@ -1,0 +1,128 @@
+body {
+    background-color: #FFFEF0;
+    color: #4D3E3E;
+}
+.input-hidden {
+    background-color: transparent; /* 배경색 투명 */
+    border: none; /* 테두리 없음 */
+    outline: none; /* 포커스 시 아웃라인 없음 */
+    color: inherit; /* 텍스트 색상 상속 */
+    font-size: 40px; /* 폰트 크기 상속 */
+    text-align: center;
+    height: 100px;
+    width: 1000px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.upload-container {
+    background-color: white; /* 배경색 흰색 */
+    border: 1px solid #ccc; /* 테두리 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    width: 400px; /* 고정된 너비 설정 */
+    height: 400px; /* 고정된 높이 설정 */
+    margin: auto; /* 중앙 정렬 */
+    overflow: hidden; /* 컨테이너 밖의 내용 숨기기 */
+}
+
+.preview {
+    position: relative; /* 부모 컨테이너를 상대적으로 설정 */
+    width: 100%; /* 컨테이너 너비를 100%로 설정 */
+    height: 100%; /* 컨테이너 높이를 100%로 설정 */
+}
+
+#imagePreview {
+    position: absolute; /* 이미지가 부모 컨테이너를 꽉 채우도록 설정 */
+    top: 50%; /* 상단 중앙 위치 */
+    left: 50%; /* 좌측 중앙 위치 */
+    width: auto; /* 너비 자동 설정 */
+    height: 100%; /* 높이는 100%로 설정 */
+    transform: translate(-50%, -50%); /* 중앙 정렬 */
+    object-fit: cover; /* 비율 유지하며 꽉 차게 설정 */
+}
+#fileInput {
+    margin-bottom: 10px; /* 아래쪽 여백 */
+}
+
+.fileInput-text {
+    margin-top: 10px; /* 위쪽 여백 */
+    color: #888; /* 텍스트 색상 */
+}
+
+#time {
+    margin-left: 16px; /* 왼쪽 여백 */
+}
+
+#body, #information {
+    height: 100px; /* 고정된 높이 */
+    width: 1500px; /* 고정된 너비 */
+    margin-bottom: 20px; /* 아래쪽 여백 */
+    margin-top: 20px; /* 위쪽 여백 */
+    font-size: 30px; /* 폰트 크기 */
+    overflow: auto; /* 스크롤 가능 */
+    word-wrap: break-word; /* 긴 단어 줄바꿈 */
+    white-space: normal; /* 공백과 줄바꿈을 허용 */
+    display: block; /* 블록 요소로 설정 */
+}
+
+.textarea-container {
+    display: flex; /* Flexbox로 설정 */
+    justify-content: center; /* 수평 중앙 정렬 */
+}
+
+.medicine {
+    display: flex; /* Flexbox로 설정 */
+    flex-direction: column; /* 수직 정렬 */
+    align-items: center;
+}
+#medicineTitle{
+    display: block;
+    margin-right: 1330px;
+}
+#startDate{
+    display: inline;
+    margin-right: 1280px;
+}
+#endDate{
+    display: inline;
+    margin-right: 1280px;
+}
+#TakingTime{
+    display: inline;
+    margin-right: 1312px;
+}
+
+
+.medicine > div {
+    margin-bottom: 10px; /* 아래쪽 여백 */
+    margin-top: 10px; /* 위쪽 여백 */
+}
+
+
+#SubmitButton {
+    padding-left: 50px; /* 왼쪽 패딩 */
+    padding-right: 50px; /* 오른쪽 패딩 */
+}
+
+.hidden {
+    display: none; /* 미리보기가 숨겨질 때 사용 */
+}
+.section{
+    display: block;
+    width: 50px;
+    height: 50px;
+
+}
+.header{
+    display: block;
+}
+#diaryContent{
+    padding-top: 70px;
+}
+
+#calendar{
+
+}

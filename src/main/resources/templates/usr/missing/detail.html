@@ -1,0 +1,89 @@
+<th:block th:replace="usr/common/head"/>
+<head>
+    <title>실종동물찾기</title>
+    <link rel="stylesheet" href="/resource/css/dogAdd.css"/>
+    <script src="/resource/js/dogAdd.js"></script>
+</head>
+<body>
+<div class="title">실종동물찾기</div>
+<div class="profile tw-p-5 tw-flex tw-justify-between">
+    <div class="profile_title" th:if="${member != null}" th:text="${member.nickname}">사용자 정보</div>
+    <div>
+        <form th:action="@{'../missing/doDelete'}" method="post" th:if="${member != null}">
+            <a class="misssing_button" th:href="@{'../missing/modify?missingId='+${missing.id}}"
+               th:if="${member.id == missing.memberId}">수정</a>
+            <input type="hidden" name="missingId" th:value="${missing.id}" \>
+            <button type="submit" class="misssing_button" th:if="${member.id == missing.memberId}">삭제</button>
+        </form>
+    </div>
+</div>
+
+<div class="drop_area tw-relative">
+    <img class="preview tw-absolute" th:src="@{${missing.photo}}" alt=""/><br>
+</div>
+<br>
+
+<div class="dogAdd_title tw-p-5">신고자 정보</div>
+<div class="dogAdd_body tw-p-5">
+    <div class="tw-mt-5 tw-mb-5">
+        <label>신고자</label>
+        <span class="tw-pl-[20px]" th:text="${missing.extra__ownerName}"></span>
+    </div>
+    <div class="tw-mt-5 tw-mb-5">
+        <label>연락처</label>
+        <span class="tw-pl-[20px]" th:text="${missing.extra__ownerCellphoneNum}"></span>
+    </div>
+</div>
+
+<div class="dogAdd_title tw-p-5">실종일시 및 장소</div>
+<div class="dogAdd_body tw-p-5">
+    <div class="tw-mt-5 tw-mb-5">
+        <label>실종날짜</label>
+        <span class="tw-pl-[20px]" th:text="|${missing.reportDate.substring(0, 13)}시경|"></span>
+    </div>
+    <div class="tw-mt-5 tw-mb-5">
+        <label>실종장소</label>
+        <span class="tw-pl-[20px]" th:text="${missing.missingLocation}"></span>
+    </div>
+</div>
+
+<div class="dogAdd_title tw-p-5">동물 정보</div>
+<div class="dogAdd_body tw-p-5">
+    <div class="tw-mt-5 tw-mb-5">
+        <label>이름</label>
+        <span class="tw-pl-[20px]" th:text="${missing.name}"></span>
+    </div>
+    <div class="tw-mt-5 tw-mb-5">
+        <label>품종</label>
+        <span class="tw-pl-[20px]" th:text="${missing.breed}"></span>
+    </div>
+    <div class="tw-mt-5 tw-mb-5">
+        <label>색상</label>
+        <span class="tw-pl-[20px]" th:text="${missing.color}"></span>
+    </div>
+    <div class="tw-mt-5 tw-mb-5">
+        <label>성별</label>
+        <span class="tw-pl-[20px]" th:text="${missing.gender}"></span>
+    </div>
+    <div class="tw-mt-5 tw-mb-5">
+        <label>나이 (개월)</label>
+        <span th:if="${missing.age!='불명'}" class="tw-pl-[20px]" th:text="|${missing.age}개월|"></span>
+        <span th:if="${missing.age=='불명'}" class="tw-pl-[20px]" th:text="${missing.age}"></span>
+    </div>
+    <div class="tw-mt-5 tw-mb-5">
+        <label>마이크로칩(RFID)번호</label>
+        <span class="tw-pl-[20px]" th:text="${missing.RFID}"></span>
+    </div>
+</div>
+
+<div class="dogAdd_title tw-p-5">특징</div>
+<div class="dogAdd_body tw-p-5">
+    <div class="tw-mt-5 tw-mb-5">
+        <span class="trait tw-p-5" th:text="${missing.trait}"></span>
+    </div>
+</div>
+<div class="upload_button_wrapper">
+    <button class="upload_button" onclick="location.href='../missing/list'">목록</button>
+</div>
+</body>
+</html>

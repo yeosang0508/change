@@ -1,0 +1,272 @@
+body {
+    background: #FFFEF0;
+    color: #4D3E3E;
+    white-space: normal;
+    word-break: keep-all;
+}
+
+.left_box{
+    top: 0;
+    left: 0;
+    position: absolute;
+    background-color: #FFF3CD;
+    width: 50vw;
+    height: 805px;
+    z-index: -1;
+}
+
+.right_box{
+    top: 0;
+    right: 0;
+    position: absolute;
+    background-color: #FFF3CD;
+    width: 50vw;
+    height: 718px;
+    z-index: -1;
+}
+
+.main_image, .main_box {
+    width: 1440px;
+    height: 924px;
+    margin: auto;
+    background: #FFFEF0;
+}
+
+.main_text {
+    left: 200px;
+    top: 200px;
+    width: 562px;
+    white-space: normal;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.main_box_title{
+    left: 120px;
+    top: 70px;
+    width: 1200px;
+    padding: 30px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.main_box_body{
+    left: 120px;
+    top: 150px;
+    width: 1200px;
+    padding: 30px;
+    font-size: 19px;
+}
+
+.main_button{
+    background: white;
+    margin-top: 100px;
+    padding : 20px 100px 20px 100px;
+    border-radius: 30px;
+    display: inline-block;
+}
+
+.community{
+    background: url(https://framerusercontent.com/images/ubSuEXPWtpN56eHbnEnPHhIqg.jpg?scale-down-to=1024);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 400px;
+    height: 560px;
+    left: 105px;
+    bottom: 50px;
+    border-radius: 20px;
+}
+.records{
+    background: url(https://i0.pickpik.com/photos/867/398/408/diary-journal-pen-notebook-preview.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 400px;
+    height: 270px;
+    left: 525px;
+    bottom: 340px;
+    border-radius: 20px;
+}
+.shopping{
+    background: url(https://img.freepik.com/premium-photo/jack-russel-dog-puppy-looks-into-empty-shopping-trolley-cart-blue-wall_77190-4574.jpg?w=1380);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 400px;
+    height: 270px;
+    left: 945px;
+    bottom: 340px;
+    border-radius: 20px;
+}
+.health{
+    background: url(https://cdn.pixabay.com/photo/2022/04/25/15/50/dogs-7156260_1280.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 820px;
+    height: 270px;
+    left: 525px;
+    bottom: 50px;
+    border-radius: 20px;
+}
+
+.hover_text {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border: 1px solid inherit;
+    border-radius: 20px;
+    background: rgba(19, 19, 19, 0.73);
+    color: white;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.hover_text_title {
+    font-size: 30px;
+    padding: 20px;
+    height: 50%;
+}
+
+.hover_text_body {
+    padding: 20px;
+    height: 50%;
+}
+
+.hover_view:hover .hover_text {
+    opacity: 1;
+    visibility: visible;
+}
+
+.slider_wrapper {
+    left: 105px;
+    bottom: 200px;
+    position: absolute;
+    overflow: hidden; /* 슬라이더 영역을 벗어난 부분을 숨김 */
+    width: 100%; /* 슬라이더를 화면에 맞추어 크기를 설정 */
+    max-width: 1240px; /* 최대 너비 설정 */
+    height: 380px; /* 슬라이더 높이 설정 (필요에 따라 조정 가능) */
+}
+
+.slider_container {
+    display: flex;
+    transition: transform 0.5s ease; /* 슬라이드 이동 효과 */
+}
+
+.misssing_item {
+    min-width: 380px; /* 너비를 300px로 설정 */
+    height: 100%; /* 높이를 부모 컨테이너에 맞추어 설정 */
+    border-radius: 20px;
+    overflow: hidden; /* 내부 요소가 영역을 넘지 않도록 설정 */
+    margin-right: 50px; /* 오른쪽 마진을 추가하여 간격 설정 */
+}
+
+.misssing_image {
+    width: 100%;  /* a 요소의 너비에 맞추어 설정 */
+    height: 100%; /* a 요소의 높이에 맞추어 설정 */
+    object-fit: cover; /* 이미지 비율 유지하면서 크기 조절 */
+}
+
+/* 슬라이더 버튼 스타일 */
+.slider_btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+    width: 40px; /* 버튼의 너비 설정 */
+    height: 40px; /* 버튼의 높이 설정 */
+}
+
+.left_btn {
+    left: 10px;
+    display: none;
+}
+
+.right_btn {
+    right: 10px;
+    display: none;
+}
+
+.gps_popup, .gps_popup2 {
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFEF0;
+}
+
+
+.gps_popup_button{
+    padding: 10px;
+    border: 1px solid #4D3E3E;
+    border-radius: 10px;
+    height: 40px;
+    width: 100px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+/*changeMain css*/
+
+.custom-card {
+    border-radius: 300px 30px 30px 30px; /* 왼쪽 위를 더 크게 둥글게 */
+}
+
+.scroll-downs {
+    position: absolute;
+    bottom: 16px; /* 화면 하단에서 약간의 여백 */
+    left: 50%; /* 수평 중앙 정렬 */
+    transform: translateX(-50%); /* 수평 중앙으로 이동 */
+    width: 34px;
+    height: 55px;
+    z-index: 10;
+    opacity: 1;
+}
+
+.mousey {
+    width: 3px;
+    padding: 10px 15px;
+    height: 35px;
+    border: 2px solid #FF6F61;
+    border-radius: 25px;
+    opacity: 0.75;
+    box-sizing: content-box;
+}
+
+.scroller {
+    width: 3px;
+    height: 10px;
+    border-radius: 25%;
+    background-color: #FF6F61;
+    animation-name: scroll;
+    animation-duration: 2.2s;
+    animation-timing-function: cubic-bezier(.15, .41, .69, .94);
+    animation-iteration-count: infinite;
+}
+
+@keyframes scroll {
+    0% { opacity: 0; }
+    10% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(15px); opacity: 0; }
+}
+

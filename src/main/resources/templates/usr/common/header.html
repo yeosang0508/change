@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="/resource/dist/styles.css" th:href="@{/resource/dist/styles.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        const alarmContainer = $("#alarmMessages");
+        const alarmCountBadge = $("#alarmCount");
+
+        // 로그인 상태 및 멤버 정보를 확인하는 함수
+        function isValidUser() {
+            const isLogined = /*[[${isLogined}]]*/ false;
+            const member = /*[[${member}]]*/ null;
+
+            if (!isLogined || !member || !member.id || member.id === 'null') {
+                console.error("유효한 사용자 정보가 아닙니다.");
+                return false;
+            }
+            return true;
+        }
+
+        // 알람 메시지를 사이드바에 추가하는 함수
+        function displayAlarms(alarmMessages) {
+            alarmContainer.empty(); // 기존 내용 초기화
+
+            const today = new Date();
+            let alarmCount = 0;
+
+            alarmMessages.forEach(alarm => {
+                // 현재 날짜 이전의 알람만 가져옴
+                const alarmDate = new Date(alarm.alarm_date);
+
+                if (alarmDate < today) {
+                    const alarmElement = $(`<p data-id="${alarm.id}" class="alarm-message tw-text-[#4D3E3E] tw-bg-[#FFF3CD] tw-p-2 tw-rounded-[10px] tw-mb-[5px]">
+                    <a href="${alarm.site}" class="tw-no-underline tw-text-[#4D3E3E]">${alarm.message}</a>
+                </p>`);
+                    alarmContainer.append(alarmElement);
+                    alarmCount++;
+                }
+            });
+
+            // 클릭 이벤트 처리 (알람 삭제)
+            alarmContainer.off("click", "p").on("click", "p", handleAlarmClick);
+
+            updateAlarmCount(alarmCount);
+        }
+
+        // 알람 클릭 시 처리하는 함수
+        function handleAlarmClick() {
+            const alarmId = $(this).data("id");
+
+            fetch(`/usr/alarm/delete?id=${alarmId}`, {method: 'DELETE'})
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('삭제 실패');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message); // 삭제 성공 메시지 출력
+                    $(this).remove(); // 클릭한 알람 메시지 제거
+                    alarmCount--; // 알람 개수 감소
+                    updateAlarmCount(alarmCount); // 알람 개수 업데이트
+                })
+                .catch(error => {
+                    console.error('오류 발생:', error);
+                });
+        }
+
+        // 알람 개수 업데이트 함수
+        function updateAlarmCount(alarmCount) {
+            if (alarmCount > 0) {
+                alarmCountBadge.text(alarmCount); // 알람 개수 업데이트
+                alarmCountBadge.show(); // 배지 보이기
+            } else {
+                alarmCountBadge.hide(); // 알람 배지 숨기기
+            }
+        }
+
+        // 알람을 가져오는 함수
+        function fetchAlarms() {
+            if (!isValidUser()) return;
+
+            const member = /*[[${member}]]*/ null;
+            const memberId = member.id;
+            const url = `/usr/alarm/get?memberId=${memberId}`;
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function (data) {
+                    displayAlarms(data); // 알람 데이터가 배열 형태로 오면, displayAlarms 호출
+                },
+                error: function (error) {
+                    console.error("알람 메시지 가져오기 실패:", error);
+                }
+            });
+        }
+
+        // 페이지 로드 시 알람 메시지 표시
+        fetchAlarms();
+
+        $(".alarm_profile").click(function (event) {
+            event.stopPropagation();
+            if (!$(".alarm_profile_bar").hasClass("tw-hidden")) {
+                $(".alarm_profile_bar").addClass("tw-hidden");
+            } else {
+                $(".head_profile_bar").addClass("tw-hidden");
+                $(".alarm_profile_bar").removeClass("tw-hidden");
+            }
+        });
+
+        $(".head_profile").click(function (event) {
+            event.stopPropagation();
+            if (!$(".head_profile_bar").hasClass("tw-hidden")) {
+            } else {
+                $(".alarm_profile_bar").addClass("tw-hidden");
+            }
+        });
+
+        $(document).click(function () {
+            $(".alarm_profile_bar").addClass("tw-hidden");
+            $(".head_profile_bar").addClass("tw-hidden");
+        });
+    });
+</script>
+<div class="tw-fixed tw-h-[60px] tw-w-full tw-z-20" style="background-color: transparent;">
+    <div class="tw-container tw-mx-auto tw-flex tw-justify-between tw-items-baseline">
+        <a href="../home/main" class="tw-text-2xl tw-pl-[20px]" style="color: #4B5D67;">TailsRoute</a>
+        <div class="tw-w-[700px] tw-h-[60px]">
+            <ul class="tw-flex tw-h-[60px] tw-items-center">
+                <li class="tw-flex-1 tw-h-full">
+                    <a href="../article/list"
+                       class="tw-cursor-pointer tw-p-2.5 tw-py-2 tw-block tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center tw-border tw-border-transparent hover:tw-border-white"
+                       style="color: #4B5D67;">커뮤니티</a>
+                </li>
+                <li class="tw-flex-1 tw-h-full">
+                    <a href="../diary/list"
+                       class="tw-cursor-pointer tw-p-2.5 tw-py-2 tw-block tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center tw-border tw-border-transparent hover:tw-border-white"
+                       style="color: #4B5D67;">일상기록</a>
+                </li>
+                <li class="tw-flex-1 tw-h-full">
+                    <a href="../shopping/page"
+                       class="tw-cursor-pointer tw-p-2.5 tw-py-2 tw-block tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center tw-border tw-border-transparent hover:tw-border-white"
+                       style="color: #4B5D67;">쇼핑</a>
+                </li>
+                <li class="tw-flex-1 tw-h-full">
+                    <a href="../health/page"
+                       class="tw-cursor-pointer tw-p-2.5 tw-py-2 tw-block tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center tw-border tw-border-transparent hover:tw-border-white"
+                       style="color: #4B5D67;">건강관리</a>
+                </li>
+                <li class="tw-flex-1 tw-h-full">
+                    <a href="../missing/list"
+                       class="tw-cursor-pointer tw-p-2.5 tw-py-2 tw-block tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center tw-border tw-border-transparent hover:tw-border-white"
+                       style="color: #4B5D67;">실종관리</a>
+                </li>
+            </ul>
+        </div>
+        <div class="tw-flex tw-items-center tw-justify-end">
+            <div class="head_profile tw-cursor-pointer tw-text-lg tw-relative" style="color: #4B5D67;"
+                 th:if="${!isLogined}"><a
+                    href="../member/login" class="tw-mr-[30px]">로그인</a></div>
+            <div class="tw-flex tw-items-center">
+                <div class="head_profile tw-cursor-pointer tw-text-lg tw-relative" style="color: #4B5D67;"
+                     th:if="${isLogined}">
+                    <div th:if="${member.extra__dogPoto == null}" class="tw-mr-[30px]"
+                         th:onclick="'this.nextElementSibling.classList.toggle(&quot;tw-hidden&quot;)'">프로필
+                    </div>
+
+                    <img th:if="${member.extra__dogPoto != null}" th:src="@{${member.extra__dogPoto}}"
+                         alt="Profile Image"
+                         class="tw-w-[45px] tw-h-[45px] tw-rounded-full tw-mr-[30px] tw-mb-[5px] tw-inline-block tw-border tw-border-transparent hover:tw-border-white"
+                         th:onclick="'this.nextElementSibling.classList.toggle(&quot;tw-hidden&quot;)'"/>
+
+                    <div class="tw-hidden head_profile_bar tw-z-30 tw-cursor-default tw-mt-[15px] tw-absolute tw-w-[400px] tw-h-[350px] tw-bg-[#FFF3CD] tw-border tw-border-[#4D3E3E] tw-rounded-[30px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-2 tw-right-0">
+                        <div class="head_profile_id tw-text-[#4D3E3E]" th:text="${member.getLoginId}">user01</div>
+                        <img th:if="${member.extra__dogPoto != null}" th:src="@{${member.extra__dogPoto}}"
+                             alt="Profile Image"
+                             class="head_profile_image tw-w-[100px] tw-h-[100px] tw-border tw-border-[#4D3E3E] tw-rounded-full"/>
+                        <img th:if="${member.extra__dogPoto == null}"
+                             th:src="@{/resource/photo/default.png}"
+                             alt="Default Profile Image"
+                             class="head_profile_image tw-w-[100px] tw-h-[100px] tw-border tw-border-[#4D3E3E] tw-rounded-full"/>
+                        <div class="head_profile_text tw-text-[#4D3E3E]" th:text="|안녕하세요, ${member.getNickname}님|">
+                            안녕하세요, 콩이의
+                            대장님.
+                        </div>
+                        <a href="../member/myPage"
+                           class="tw-no-underline tw-border tw-border-[#4D3E3E] tw-text-[#4D3E3E] tw-p-2.5 tw-px-5 tw-rounded-full tw-transition-colors tw-duration-300 tw-mb-2 hover:tw-bg-[#E6DCA8]">내
+                            정보</a>
+                        <div class="tw-flex tw-gap-2 tw-mb-[10px]">
+                            <a href="../dog/add"
+                               class="tw-no-underline tw-text-center tw-border tw-border-[#4D3E3E] tw-text-[#4D3E3E] tw-w-[170px] tw-p-2.5 tw-px-5 tw-rounded-l-full tw-transition-colors tw-duration-300 hover:tw-bg-[#E6DCA8]">
+                                <i class="fa-solid fa-circle-plus"></i> 반려견 추가
+                            </a>
+                            <!--로그아웃 주소 http://localhost:8081/usr/member/doLogout 이걸로 했는데 바꿀거면 아래 href 수정하면돼-->
+                            <a href="../member/doLogout"
+                               class="tw-no-underline tw-text-center tw-border tw-border-[#4D3E3E] tw-text-[#4D3E3E] tw-w-[170px] tw-p-2.5 tw-px-5 tw-rounded-r-full tw-transition-colors tw-duration-300 hover:tw-bg-[#E6DCA8]">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i> 로그아웃
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alarm_profile tw-cursor-pointer tw-text-white tw-text-lg tw-relative" th:if="${isLogined}">
+                <!-- 알림 아이콘을 클릭했을 때 sidebar로 이동 -->
+                <i class="fa-solid fa-bell"></i>
+                <!-- 알람 수를 표시하는 배지 -->
+                <span id="alarmCount"
+                      class="tw-absolute tw-top-[-7px] tw-right-[-5px] tw-text-l-[10px] tw-text-[10px] tw-bg-red-500 tw-text-white tw-rounded-full tw-w-[10px] tw-h-[10px] tw-text-center tw-flex tw-items-center tw-justify-center tw-hidden"></span>
+                <!-- 사이드 바 -->
+                <div id="sidebar"
+                     class="alarm_profile_bar tw-hidden tw-z-30 tw-cursor-default tw-mt-[30px] tw-ml-[200px] tw-absolute tw-w-[400px] tw-h-[350px] tw-bg-[#FFFEF0] tw-border tw-border-[#4D3E3E] tw-rounded-[30px] tw-flex tw-flex-col tw-items-center tw-justify-center tw-gap-2 tw-right-[-5px]">
+                    <h3 class="tw-text-lg tw-text-[#4D3E3E] tw-font-bold">알람 메시지</h3>
+                    <div id="alarmMessages"
+                         class="tw-flex tw-flex-col tw-items-start tw-w-full tw-h-full tw-overflow-auto tw-p-2 tw-mh-[250px]">
+                        <!-- 알람 메시지가 여기에 동적으로 추가됩니다. -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>

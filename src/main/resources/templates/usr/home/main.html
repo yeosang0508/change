@@ -1,0 +1,132 @@
+<th:block th:replace="usr/common/head"/>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Main</title>
+    <link rel="stylesheet" href="/resource/css/main.css"/>
+</head>
+<body>
+<div th:if="${gpsChack != null}">
+    <script>
+        let currentLatitude;
+        let currentLongitude;
+
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    currentLatitude = position.coords.latitude;
+                    currentLongitude = position.coords.longitude;
+
+                    // 페이지 로드 후 조건을 확인
+                    checkGpsCondition();
+                }, (error) => {
+                    console.error("Error getting location: ", error);
+                });
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function checkGpsCondition() {
+            // 서버에서 가져온 gpsChack 객체를 Thymeleaf를 통해 JavaScript로 초기화
+            const gpsChack = {
+                latitude: [[${gpsChack.latitude}]],
+                longitude: [[${gpsChack.longitude}]]
+            };
+
+            if (gpsChack.latitude == null || gpsChack.longitude == null) {
+                return; // 조건을 만족하지 않으면 함수를 종료
+            }
+
+            // 디버깅용 로그
+            console.log("gpsChack.latitude : " + gpsChack.latitude);
+            console.log("gpsChack.longitude : " + gpsChack.longitude);
+            console.log("currentLatitude : " + currentLatitude);
+            console.log("currentLongitude : " + currentLongitude);
+
+            // 현재 위도와 경도가 다를 경우 팝업 표시
+            if (gpsChack.latitude !== currentLatitude && gpsChack.longitude !== currentLongitude) {
+                document.querySelector('.gps_popup2').style.display = 'flex'; // 팝업 표시
+            }
+        }
+
+        window.onload = getCurrentLocation;
+    </script>
+</div>
+<script src="/resource/js/main.js"></script>
+<div class="main_box tw-relative">
+    <img class="main_image" th:src="@{/resource/photo/main.png}" alt="">
+    <div class="main_text tw-absolute">
+        <div>TailsRoute는 반려견의 실종 신고, 건강 관리, 훈련 추천, 커뮤니티 정보 교환 등을 제공하는 종합 케어 플랫폼입니다.</div>
+        <button class="main_button ">24시간 병원 안내</button>
+    </div>
+</div>
+<div class="main_box tw-relative">
+    <div class="main_box_title tw-absolute">반려견과 함께하는 스마트한 일상</div>
+    <div class="main_box_body tw-absolute">TailsRoute가 제공하는 다양한 서비스를 통해 반려견의 건강, 훈련, 실종 알림 등을 스마트하게 관리할 수 있는 생활을 의미합니다.
+        언제 어디서든 실시간 정보를 제공받아 반려견과 더 안전하고 행복한 일상을 만들어 보세요.
+    </div>
+    <button class="community tw-absolute hover_view">
+        <a href="../missing/list" class="hover_text tw-absolute">
+            <div class="hover_text_title">커뮤니티 정보 교환</div>
+            <div class="hover_text_body">자유게시판, 질문 게시판을 통해 반려견 관련정보를 공유하고, 다양한 경험을 나눠보세요.</div>
+        </a>
+    </button>
+    <button class="records tw-absolute hover_view">
+        <a href="../missing/list" class="hover_text tw-absolute">
+            <div class="hover_text_title">반려견 성장 과정 기록</div>
+            <div class="hover_text_body">사용자가 반려견의 성장과 건강 상태를 기록하며 일상과 변화를 세심하게 관리할 수 있는 기능입니다.</div>
+        </a>
+    </button>
+    <button class="shopping tw-absolute hover_view">
+        <a href="../missing/list" class="hover_text tw-absolute">
+            <div class="hover_text_title">쇼핑 및 알림 기능</div>
+            <div class="hover_text_body">주기적인 사료, 배변패드 등의 구매 알림을 받고 반려동물 용품 쇼핑몰로 연결됩니다.</div>
+        </a>
+    </button>
+    <button class="health tw-absolute hover_view">
+        <a href="../missing/list" class="hover_text tw-absolute">
+            <div class="hover_text_title">반려견 훈련 영상 추천 및 AI 기반 훈련 지원</div>
+            <div class="hover_text_body">반려견 훈련에 필요한 맞춤형 조언을 실시간으로 제공하는 AI 기반 훈련 지원 도구입니다.</div>
+        </a>
+    </button>
+</div>
+<div class="main_box tw-relative">
+    <div class="main_box_title tw-absolute tw-text-right">실종 신고 및 알림 서비스</div>
+    <div class="main_box_body tw-absolute tw-text-right">반려견이 설정된 구역을 벗어나면 즉시 푸시 알림을 받고, WebSocket을 통해 실시간으로 커뮤니티에 이미지를
+        전송할 수 있습니다.
+    </div>
+    <div class="slider_wrapper">
+        <button class="slider_btn left_btn">&#10094;</button>
+        <div class="slider_container">
+            <a class="misssing_item" th:href="@{'../missing/detail?missingId='+${missing.id}}"
+               th:each="missing : ${missings}">
+                <img th:src="@{${missing.photo}}" alt="Missing Image" class="misssing_image"/>
+            </a>
+        </div>
+        <button class="slider_btn right_btn">&#10095;</button>
+    </div>
+</div>
+<div class="left_box"></div>
+<div class="right_box"></div>
+
+<div class="gps_popup tw-gap-5" th:if="${isLogined && gpsChack == null}">
+    <div class="tw-p-2 tw-text-3xl">GPS 정보 수신에 동의 하시겠습니까? (1)</div>
+    <div class="tw-p-2 tw-text-3xl">접속 환경이 변경될 경우, 새로운 팝업이 표시될 수 있습니다.</div>
+    <div class="tw-flex tw-gap-11">
+        <button class="gps_popup_button" onclick="gpsChackOn()">확인</button>
+        <button class="gps_popup_button" onclick="gpsChackOff()">취소</button>
+    </div>
+</div>
+
+<div class="gps_popup2 tw-gap-5" style="display: none;">
+    <div class="tw-p-2 tw-text-3xl">GPS 정보 수신에 동의 하시겠습니까? (2)</div>
+    <div class="tw-p-2 tw-text-3xl">접속 환경이 변경될 경우, 새로운 팝업이 표시될 수 있습니다.</div>
+    <div class="tw-flex tw-gap-11">
+        <button class="gps_popup_button" onclick="gpsChackUpdate()">확인</button>
+        <button class="gps_popup_button" onclick="gpsChackCancel()">취소</button>
+    </div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,49 @@
+body {
+    background-color: #FFF3CD;
+    color: #4D3E3E;
+    white-space: normal;
+    word-break: keep-all;
+}
+
+.mapBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    text-align: center;
+    padding-top: 70px;
+    font-size: 50px;
+}
+
+.profile {
+    border-bottom: 1px solid;
+    margin: auto;
+    width: 1340px;
+    font-weight: bold;
+}
+
+.upload_map {
+    width: 100%;
+    max-width: 1340px;
+    display: flex;              /* Flexbox 활성화 */
+    justify-content: space-between; /* 양쪽 끝으로 정렬 */
+    padding: 10px;
+}
+
+.upload_input{
+    border-radius: 10px;
+    height: 40px;
+    width: 300px;
+    padding-left: 10px;
+}
+
+.upload_button {
+    background: RGB(105, 105, 105);
+    color: white;
+    border-radius: 10px;
+    height: 40px;
+    width: 100px;
+}

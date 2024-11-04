@@ -1,0 +1,177 @@
+<th:block th:replace="usr/common/head"/>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Main</title>
+    <link rel="stylesheet" href="/resource/css/main.css"/>
+</head>
+<body>
+
+<!-- GPS Popup Logic -->
+<div th:if="${gpsChack != null}">
+    <script>
+        let currentLatitude;
+        let currentLongitude;
+
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    currentLatitude = position.coords.latitude;
+                    currentLongitude = position.coords.longitude;
+                    checkGpsCondition();
+                }, (error) => {
+                    console.error("Error getting location: ", error);
+                });
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function checkGpsCondition() {
+            const gpsChack = {
+                latitude: [[${gpsChack.latitude}]],
+                longitude: [[${gpsChack.longitude}]]
+            };
+
+            if (!gpsChack.latitude || !gpsChack.longitude) return;
+
+            if (gpsChack.latitude !== currentLatitude || gpsChack.longitude !== currentLongitude) {
+                document.querySelector('.gps_popup2').style.display = 'flex';
+            }
+        }
+
+        window.onload = getCurrentLocation;
+
+        // Intersection Observer API를 사용하여 섹션이 보일 때 버튼을 전환합니다.
+        document.addEventListener("DOMContentLoaded", function () {
+            const largeButtons = document.getElementById("largeButtons");
+            const smallButtons = document.getElementById("smallButtons");
+
+            // Intersection Observer 설정
+            const observerOptions = {
+                threshold: 0.5  // 섹션의 50%가 화면에 들어왔을 때 트리거
+            };
+
+            // 콜백 함수
+            const observerCallback = (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // 스크롤 위치에 따라 버튼 전환
+                        if (entry.target.id === "section1") {
+                            largeButtons.classList.remove("tw-hidden");
+                            smallButtons.classList.add("tw-hidden");
+                        } else {
+                            largeButtons.classList.add("tw-hidden");
+                            smallButtons.classList.remove("tw-hidden");
+                        }
+                    }
+                });
+            };
+
+            // Observer 생성
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+            // 각 섹션을 관찰 대상으로 추가
+            document.querySelectorAll("section").forEach(section => observer.observe(section));
+        });
+    </script>
+</div>
+
+<script src="/resource/js/main.js"></script>
+
+<main class="tw-w-full tw-flex tw-flex-col">
+    <!-- 첫 번째 화면 (메인 화면) -->
+    <section id="section1" class="tw-w-full tw-h-screen tw-flex tw-items-center tw-justify-center tw-bg-[#F9F5EB]">
+        <div class="custom-card tw-bg-[#EDE0D4] tw-rounded-xl tw-shadow-md tw-flex tw-h-[80%] tw-w-[80%]">
+            <img class="tw-ml-10 tw-mt-10 tw-object-cover tw-rounded-lg" src="/resource/photo/main_dog.png"
+                 alt="Dog Image">
+            <div class="tw-ml-8 tw-flex tw-flex-col tw-justify-center tw-h-full tw-mt-20">
+                <h1 class="tw-text-6xl md:tw-text-6xl tw-font-bold tw-mb-5">
+                    반려견과 함께<br>반려견을 위한 공간
+                </h1>
+                <p class="tw-text-xl tw-mb-44">
+                    반려견 케어를 위한 종합 관리 플랫폼
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 두 번째 화면 -->
+    <section id="section2" class="tw-w-full tw-h-screen tw-bg-[#FDEDD0] tw-flex tw-items-center tw-justify-center">
+        <div class="tw-text-center">
+            <h2 class="tw-text-4xl tw-font-bold tw-text-gray-700">반려견 훈련 정보</h2>
+            <p class="tw-text-xl tw-mt-4">반려견 훈련에 필요한 다양한 정보와 팁을 제공합니다.</p>
+        </div>
+    </section>
+
+    <!-- 세 번째 화면 -->
+    <section id="section3" class="tw-w-full tw-h-screen tw-bg-[#FAF3E0] tw-flex tw-items-center tw-justify-center">
+        <div class="tw-text-center">
+            <h2 class="tw-text-4xl tw-font-bold tw-text-gray-700">커뮤니티</h2>
+            <p class="tw-text-xl tw-mt-4">반려견과 관련된 다양한 정보를 공유하고 소통하는 공간입니다.</p>
+        </div>
+    </section>
+
+    <!-- 네 번째 화면 -->
+    <section id="section4" class="tw-w-full tw-h-screen tw-bg-[#E3DAC9] tw-flex tw-items-center tw-justify-center">
+        <div class="tw-text-center">
+            <h2 class="tw-text-4xl tw-font-bold tw-text-gray-700">24시 병원 정보</h2>
+            <p class="tw-text-xl tw-mt-4">반려견의 긴급 상황을 위한 병원 정보를 안내합니다.</p>
+        </div>
+    </section>
+</main>
+
+<!-- 오른쪽 고정 버튼 -->
+<div id="buttonContainer"
+     class="tw-fixed tw-bottom-10 tw-right-10 tw-flex tw-flex-col tw-items-end tw-gap-4 transition-all">
+    <!-- 큰 버튼: 기본 상태에서 표시됨 -->
+    <div id="largeButtons" class="tw-flex tw-flex-col tw-items-end tw-gap-4">
+        <!-- 로그인/회원가입 버튼 -->
+        <div class="button-style tw-flex tw-items-center tw-gap-2 tw-p-4 tw-rounded-full tw-shadow-md tw-border tw-cursor-pointer hover:tw-shadow-lg tw-h-16 tw-w-48"
+             style="border-color: #7DAF82; background-color: transparent;">
+            <span class="tw-text-gray-700 tw-font-medium">
+                <i class="bi bi-person-fill" style="color: #7DAF82;"></i> &nbsp; 로그인/회원가입
+            </span>
+        </div>
+
+        <!-- 24시 병원 버튼 -->
+        <div class="button-style tw-flex tw-items-center tw-gap-2 tw-p-4 tw-rounded-full tw-shadow-md tw-border tw-cursor-pointer hover:tw-shadow-lg tw-h-16 tw-w-48"
+             style="border-color: #7DAF82; background-color: transparent;">
+            <span class="tw-text-gray-700 tw-font-medium">
+                <i class="bi bi-moon" style="color: #7DAF82;"></i> &nbsp; 24시 병원
+            </span>
+        </div>
+
+        <!-- 알람 버튼 -->
+        <div class="button-style tw-flex tw-items-center tw-justify-center tw-w-16 tw-h-16 tw-rounded-full tw-bg-[#7DAF82] tw-cursor-pointer">
+            <i class="bi bi-bell-fill tw-text-white tw-text-2xl"></i>
+        </div>
+    </div>
+
+    <!-- 작은 아이콘 버튼: 스크롤 시 표시됨 -->
+    <div id="smallButtons" class="tw-hidden tw-flex tw-flex-col tw-items-center tw-gap-4">
+        <!-- 로그인/회원가입 버튼 -->
+        <div class="button-style tw-flex tw-items-center tw-justify-center tw-w-16 tw-h-16 tw-rounded-full tw-bg-[#7DAF82] tw-cursor-pointer">
+            <i class="bi bi-person-fill tw-text-white tw-text-xl"></i>
+        </div>
+
+        <!-- 24시 병원 버튼 -->
+        <div class="button-style tw-flex tw-items-center tw-justify-center tw-w-16 tw-h-16 tw-rounded-full tw-bg-[#7DAF82] tw-cursor-pointer">
+            <i class="bi bi-moon tw-text-white tw-text-xl"></i>
+        </div>
+
+        <!-- 알람 버튼 -->
+        <div class="button-style tw-flex tw-items-center tw-justify-center tw-w-16 tw-h-16 tw-rounded-full tw-bg-[#7DAF82] tw-cursor-pointer">
+            <i class="bi bi-bell-fill tw-text-white tw-text-xl"></i>
+        </div>
+    </div>
+</div>
+
+<!-- 푸터 -->
+<footer class="tw-w-full tw-bg-gray-200 tw-py-6 tw-shadow-inner tw-flex tw-items-center tw-justify-center">
+    <p class="tw-text-sm tw-text-gray-600">© 2024 TailsRoute. All rights reserved.</p>
+</footer>
+
+
+</body>
+</html>

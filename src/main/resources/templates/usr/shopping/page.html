@@ -1,0 +1,113 @@
+<div id="heads">
+    <th:block th:replace="usr/common/head"/>
+</div>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping</title>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <link rel="stylesheet" href="/resource/css/shopping.css"/>
+    <script>
+        const member = {id: '[[${member.id}]]'}; // 회원 ID 설정
+    </script>
+</head>
+<body>
+<div id="root">
+</div>
+<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<!-- 팝업을 위한 모달 추가 -->
+<div id="cartPopup" class="modal cart-popup" style="display: none;">
+    <div class="modal-content" style="height: 500px; overflow-y: auto;">
+        <span class="close" id="closeCartPopup">&times;</span>
+        <h2>관심목록</h2>
+        <ul id="cartItems">
+            <!-- 장바구니 아이템들이 여기에 추가됩니다. -->
+        </ul>
+    </div>
+</div>
+<!-- 팝업을 위한 모달 -->
+<div id="schedulePopup" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" id="closeSchedulePopup">&times;</span>
+        <h2>생필품 일정 관리</h2>
+
+        <!-- 일정 날짜 입력-->
+        <label for="scheduleDate">일정 날짜 선택</label>
+        <input type="date" id="scheduleDate" class="tw-border-box tw-w-[190px] tw-text-center tw-rounded-[5px] tw-border" /><br/><br/>
+
+        <!-- 생필품 입력 -->
+        <label for="itemName">생필품 이름</label>
+        <input type="text" id="itemName" class="tw-border-box tw-w-[190px] tw-text-center tw-rounded-[5px] tw-border" placeholder="생필품 이름을 입력하세요"/><br/><br/>
+
+        <!-- 구매 주기 선택 -->
+        <label for="purchaseCycle">사용기한(일)</label>
+        <input type="number" id="purchaseCycle" class="tw-border-box tw-w-[190px] tw-text-center tw-rounded-[5px] tw-border" placeholder="구매 주기를 입력하세요" min="1"/><br/><br/>
+
+        <!-- 알람 설정 -->
+        <label for="alarmDays">알람(사용 안 할시에는 0)</label>
+        <input type="number" id="alarmDays" class="tw-border-box tw-w-[190px] tw-text-center tw-rounded-[5px] tw-border" placeholder="몇일 전 알람" min="0"/><br/><br/>
+
+        <!-- 버튼들 -->
+        <button id="createScheduleBtn">일정 생성</button>
+        <button id="updateScheduleBtn">일정 수정</button>
+    </div>
+</div>
+<!-- Flexbox 컨테이너 추가 -->
+<div id="shopbody">
+    <div class="flex-container">
+        <div style="flex: 1; padding-right: 20px;">
+            <h2 style="text-align: left;">생필품 주기 달력</h2>
+            <div id="calendar"></div> <!-- 달력 영역 -->
+        </div>
+        <!-- 생필품 리스트 -->
+        <div style="flex: 1; padding-left: 20px;">
+            <h2 style="text-align: left;">생필품 리스트</h2>
+            <div id="List">
+                <table id="essentialTable">
+                    <thead>
+                    <tr>
+                        <th id="itemTypeHeader">품목 <span class="sort-arrow" id="itemTypeArrow"></span></th>
+                        <th id="purchaseDateHeader">구매일 <span class="sort-arrow" id="purchaseDateArrow">▲</span></th>
+                        <th id="usageCycleHeader">사용기한 <span class="sort-arrow" id="usageCycleArrow"></span></th>
+                        <th id="alarmDateHeader">알람일 <span class="sort-arrow" id="alarmDateArrow"></span></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 데이터가 여기에 추가됩니다. -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="recommend">
+        <!-- 버튼 추가 -->
+        <div id="sortButtons">
+            <button id="wishlistButton">관심목록</button>
+            <input type="text" id="searchInput" class="tw-border-box tw-w-[190px] tw-text-center tw-rounded-[5px] tw-border" placeholder="검색어를 입력하세요" onkeydown="if(event.key === 'Enter') searchItems()"/>
+            <button onclick="searchItems()">검색</button>
+            <button id="sortByAccuracy" class="active">정확도순</button>
+            <button id="sortByPrice">최저가순</button>
+        </div>
+
+        <!-- 검색어를 포함한 제목 -->
+        <h2 id="searchTitle">쇼핑 추천 리스트 - 검색 결과: </h2>
+
+        <!-- 검색 결과를 표시할 곳 -->
+        <ul id="resultContainer"></ul> <!-- ul로 변경 -->
+
+        <!-- 페이지네이션 표시 -->
+        <div class="pagination" id="paginationContainer">
+            <button id="prevPage" class="page-item">이전</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage" class="page-item">다음</button>
+        </div>
+    </div>
+</div>
+<script src="/resource/js/shopping.js"></script>
+</body>
+</html>

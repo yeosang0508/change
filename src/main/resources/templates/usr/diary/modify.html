@@ -1,0 +1,73 @@
+<div class = "header">
+  <th:block th:replace="usr/common/head"/>
+</div>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>PetdiaryWrite</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/resource/css/diary/DiaryModify.css">
+
+</head>
+
+<body >
+
+
+<form th:action="@{|${diary.id}|}" class="pt-16 " method="post" enctype="multipart/form-data">
+  <input type="hidden" name="memberId" value="1" >
+
+  <div class="flex items-center justify-center  ">
+    <label for="title"></label>
+    <input type="text" id="title" name="title" placeholder="제목을 입력해주세요." th:value="${diary.title}" class="input-hidden "/>
+  </div>
+
+  <div class="upload-container text-center mb-6">
+    <div class="preview">
+      <div id="uploadContent" class="text-center flex flex-col items-center justify-center w-full h-full">
+        <button type="button" id="fileBtn" class="text-white px-4 py-2 rounded-lg mb-2" style="background-color:#696969">이미지 업로드</button>
+        <p class="fileInput-text text-gray-500 text-xl font-bold">또는 파일 놓기.</p>
+        <input type="file" name="file" id="fileInput" accept="image/*" class="hidden" />
+      </div>
+      <img id="imagePreview" class="absolute inset-0 hidden w-full h-full object-cover" alt="Image Preview"/>
+    </div>
+    <script src="/resource/js/diary/DiaryWrite.js"></script>
+  </div>
+
+
+  <div class="textarea-container ">
+    <textarea name="body" id="body" placeholder="내용을 입력하세요" class="w-full p-4 border border-gray-300 rounded-lg mb-6 text-center" rows="10" required th:text="${diary.title}" ></textarea>
+  </div>
+
+  <nav class="medicine">
+    <h2 id= "medicineTitle" class="mb-3 text-3xl font-bold">복용약 정보</h2>
+
+    <hr>
+
+    <div>
+      <label for="startDate">복용 시작일</label>
+      <input type="date" name="startDate" id="startDate" th:value="${diary.startDate}">
+    </div>
+    <div>
+      <label for="endDate">복용 종료일</label>
+      <input type="date" name="endDate" id="endDate" th:value="${diary.endDate}">
+    </div>
+    <div>
+      <label for="TakingTime"> 복용 시간 </label>
+      <input type="time" name="takingTime" id="TakingTime"  th:value="${diary.takingTime}">
+    </div>
+
+    <div>
+      <label for="information">복용약 정보 및 특이사항 </label>
+      <textarea id="information" placeholder="복용약 정보 및 특이사항" name="information" class="w-full p-4 border border-gray-300 rounded-lg mb-6 text-center" rows="10" required th:text="${diary.information}"></textarea>
+    </div>
+
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <button id="SubmitButton" type="submit" class="text-white px-4 py-2 rounded-lg mb-2" style="background-color:#696969">수정</button>
+    </div>
+    <a th:href="@{|/usr/diary/detail/${diary.id}|}" class="btn btn-primary bg-gray-500 text-white py-2 px-4 rounded">상세페이지로 돌아가기</a>
+  </nav>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,122 @@
+body {
+    background-color: #FFF3CD;
+    color: #4D3E3E;
+    white-space: normal;
+    word-break: keep-all;
+}
+
+input, select, textarea{
+    border: 2px solid #ccc; /* 점선 테두리 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    padding-left: 10px; /* 왼쪽 여백 10px 추가 */
+}
+
+/* 드롭 영역 스타일 */
+.drop_area {
+    width: 300px;
+    height: 300px;
+    border: 2px dashed #ccc; /* 점선 테두리 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    padding: 20px; /* 내부 여백 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    align-content: center;
+    margin: auto;
+    margin-top: 20px; /* 상단 여백 */
+    background: white;
+}
+
+/* 드롭 영역 강조 스타일 */
+.drop_area.highlight {
+    border-color: #333; /* 강조할 때 테두리 색 변경 */
+}
+
+.title {
+    text-align: center;
+    padding-top: 70px;
+    font-size: 50px;
+}
+
+.image_button {
+    margin-top: 10px;
+    background: RGB(105, 105, 105);
+    color: white;
+    border-radius: 10px;
+    height: 50px;
+    width: 150px;
+}
+
+.upload_text {
+    margin-top: 50px;
+}
+
+.dogAdd_title {
+    margin: auto;
+    width: 1340px;
+    font-weight: bold;
+}
+
+.profile {
+    border-bottom: 1px solid;
+    margin: auto;
+    width: 1340px;
+    font-weight: bold;
+}
+
+.dogAdd_body {
+    border-top: 1px solid;
+    margin: auto;
+    width: 1340px;
+}
+
+.border_box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.preview {
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
+    border-radius: 5px; /* 모서리 둥글게 */
+    object-fit: fill;
+}
+
+.upload_button_wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.upload_button {
+    background: RGB(105, 105, 105);
+    color: white;
+    border-radius: 10px;
+    height: 40px;
+    width: 100px;
+}
+
+.trait {
+    width: 1290px;
+    height: 100px;
+    text-align: left; /* 왼쪽 정렬 */
+    overflow-wrap: break-word; /* 줄바꿈 허용 */
+}
+
+.profile_title{
+    display: inline-block;
+}
+
+.misssing_button{
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.image_clear{
+    background: RGB(105, 105, 105);
+    color: white;
+    border-radius: 10px;
+    height: 40px;
+    width: 100px;
+    right: -120px;
+    top: 0;
+}

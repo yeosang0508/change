@@ -1,0 +1,122 @@
+<div class = "header">
+<th:block th:replace="usr/common/head"/>
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<!--테일윈드 적용-->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<!--켈린더.js 사용경로적용-->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+<!--리스트 css 경로적용-->
+<link rel="stylesheet" href="/resource/css/diary/DiaryList.css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PetdiaryList</title>
+</head>
+<body>
+
+<!-- 페이지 명 -->
+<div class="pageName mx-auto mt-8">
+    <h1 class="text-center text-4xl font-bold mb-6">반려견 성장 기록</h1>
+</div>
+
+<!-- 메인컨테이너-->
+<section class="container pt-20 mx-auto flex flex-col justify-between h-screen">
+    <!-- 필터 -->
+    <form action="list" method="get" id="sortForm">
+        <script src="/resource/js/diary/DiaryList.js"></script>
+        <select  id="sortSelect" name="sort" onchange="saveSortValue(); document.getElementById('sortForm').submit();">
+            <option value="newest">최신순</option>
+            <option value="oldest">오래된순</option>
+        </select>
+    </form>
+
+    <div class="flex flex-grow justify-center items-start space-x-20">
+
+
+        <!-- 켈린더 -->
+        <div id="calendar"></div>
+        <script src="/resource/js/calender.js"></script>
+
+
+
+        <!-- 기록 리스트 페이지-->
+        <div class="diaryList flex flex-col w-full">
+            <table class="min-w-full table-auto">
+                <thead>
+                <tr class="listType">
+                    <th class="py-4 ">날짜</th>
+                    <th>제목</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="diary : ${diaries}">
+                    <td class="px-20 py-2 font-bold py-4" th:text="${diary.regDate}">작성일</td>
+                    <td class="px-20 py-2 hover:underline font-bold">
+                        <a th:href="@{|/usr/diary/detail/${diary.id}|}" th:text="${diary.title}">제목</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="pagination text-xl">
+                <!-- 페이지네이션 코드 -->
+                <span th:if="${totalPages == 0}">
+                    <span>1</span> <!-- 데이터가 없을 때 1만 표시 -->
+                </span>
+                <span th:if="${totalPages > 0}">
+                    <span th:if="${currentPage > 1}">
+                        <a th:href="@{|list?page=1&sort=${sort}|}">처음</a>
+                        <a th:href="@{|list?page=${currentPage - 1}&sort=${sort}|}">이전</a>
+                    </span>
+                    <span th:choose>
+                        <span th:if="${totalPages <= 5}">
+                            <span th:each="page : ${#numbers.sequence(1, totalPages)}">
+                                <a th:href="@{|list?page=${page}&sort=${sort}|}" th:text="${page}"
+                                   th:class="${page == currentPage} ? 'active' : ''"></a>
+                            </span>
+                        </span>
+                        <span th:if="${totalPages > 5}">
+                            <span th:if="${currentPage <= 3}">
+                                <span th:each="page : ${#numbers.sequence(1, 5)}">
+                                    <a th:href="@{|list?page=${page}&sort=${sort}|}" th:text="${page}"
+                                       th:class="${page == currentPage} ? 'active' : ''"></a>
+                                </span>
+                                <span>...</span>
+                            </span>
+                            <span th:if="${currentPage > 3 && currentPage < totalPages - 2}">
+                                <!--<a th:href="@{|list?page=1&sort=${sort}|}">1</a>-->
+                                <span>...</span>
+                                <span th:each="page : ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
+                                    <a th:href="@{|list?page=${page}&sort=${sort}|}" th:text="${page}"
+                                       th:class="${page == currentPage} ? 'active' : ''"></a>
+                                </span>
+                                <span>...</span>
+                             <!--   <a th:href="@{|list?page=${totalPages}&sort=${sort}|}" th:text="${totalPages}"></a>-->
+                            </span>
+                            <span th:if="${currentPage >= totalPages - 2}">
+                                <span>...</span>
+                                <span th:each="page : ${#numbers.sequence(totalPages - 4, totalPages)}">
+                                    <a th:href="@{|list?page=${page}&sort=${sort}|}" th:text="${page}"
+                                       th:class="${page == currentPage} ? 'active' : ''"></a>
+                                </span>
+                            </span>
+                        </span>
+                    </span>
+                    <span th:if="${currentPage < totalPages}">
+                        <a th:href="@{|list?page=${currentPage + 1}&sort=${sort}|}">다음</a>
+                        <a th:href="@{|list?page=${totalPages}&sort=${sort}|}">마지막</a>
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <button id="writeButton" onclick="window.location.href='/usr/diary/write'"
+            class="px-4 py-2 bg-gray-500 text-white font-semibold rounded hover:bg-gray-600 mt-4">
+        새 글 작성
+    </button>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<th:block th:replace="usr/common/head"/>
+<head>
+    <title>반려견 추가</title>
+    <link rel="stylesheet" href="/resource/css/dogAdd.css"/>
+    <script src="/resource/js/dogAdd.js"></script>
+</head>
+<body>
+<div class="title">반려견 정보 추가</div>
+<div class="profile tw-p-5">
+    <div class="profile_title" th:if="${member!=null}" th:text="${member.nickname}">사용자 정보</div>
+</div>
+<form action="/usr/dog/doModify" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" th:value="${dog.id}"/>
+
+    <div class="drop_area tw-relative">
+        <button type="button" class="image_button">이미지 업로드</button>
+        <p class="upload_text">또는 파일 놓기</p>
+        <input type="file" class="dog_photo" name="dog_photo" accept="image/*" style="display: none;">
+        <img class="preview tw-absolute" th:src="@{${dog.photo}}" alt="업로드된 이미지 미리보기"/><br>
+        <button type="button" class="image_clear tw-absolute tw-cursor-pointer" onclick="preview_clear()">지우기</button>
+    </div>
+    <br>
+    <div class="dogAdd_title tw-p-5">반려견정보</div>
+    <div class="dogAdd_body tw-p-5">
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="dog_name">이름</label>
+            <input type="text" class="dog_name tw-border-box" th:value="${dog.name}" id="dog_name" name="dog_name" required><br>
+        </div>
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="dog_weight">체중 (kg)</label>
+            <input type="number" class="dog_weight tw-border-box tw-w-[160px]" th:value="${dog.weight}" id="dog_weight" name="dog_weight" min="0" max="2147483646" step="0.1"><br>
+        </div>
+        <div class="tw-mt-5 tw-mb-5">
+            <label for="dog_type">타입</label>
+            <select class="dog_type tw-border-box" id="dog_type" name="dog_type" required>
+                <option th:value="${dog.type}" th:text="${dog.type}">소형</option>
+                <option value="소형">소형</option>
+                <option value="중형">중형</option>
+                <option value="대형">대형</option>
+            </select><br>
+        </div>
+        <div class="upload_button_wrapper">
+            <button type="submit" class="upload_button">제출</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<th:block th:replace="usr/common/head"/>
+<head>
+    <title>내 정보</title>
+    <link rel="stylesheet" href="/resource/css/memberMyPage.css"/>
+</head>
+<body>
+<script src="/resource/js/memberMyPage.js"></script>
+<div class="title">내 정보</div>
+<div class="container">
+
+    <div class="myPage">
+        <div class="profile tw-p-5">
+            <div class="profile_title">사용자 정보</div>
+        </div>
+        <div class="page_body" th:if="${member != null}">
+            <div><label>회원번호</label><span class="myPage_text" th:text="${member.id} + '번'"></span></div>
+            <div><label>등록일시</label><span class="myPage_text" th:text="${member.regDate}"></span></div>
+            <div><label>수정일시</label><span class="myPage_text" th:text="${member.updateDate}"></span></div>
+            <div><label>아이디</label><span class="myPage_text" th:text="${member.loginId}"></span></div>
+            <div><label>등급</label><span class="myPage_text"
+                                        th:text="(${member.authLevel == 3 ? '일반회원' : '관리자'})"></span></div>
+            <div><label>이름</label><span class="myPage_text" th:text="${member.name}"></span></div>
+            <div><label>닉네임</label><span class="myPage_text" th:text="${member.nickname}"></span></div>
+            <div><label>성별</label><span class="myPage_text" th:text="(${member.gender == 0 ? '여자' : '남자'})"></span>
+            </div>
+            <div><label>전화번호</label><span class="myPage_text" th:text="${member.cellphoneNum}"></span></div>
+        </div>
+        <div class="upload_button_wrapper">
+            <button class="upload_button"
+                    th:onclick="'location.href=\'../member/modify?memberId=' + ${member.id} + '\''">수정
+            </button>
+        </div>
+    </div>
+    <div class="dogPage">
+        <div class="profile tw-p-5">
+            <div class="profile_title">반려견 정보</div>
+        </div>
+        <div class="page_body" th:if="${dog != null}">
+            <div>
+                <img class="dogPage_image" th:src="@{${dog.photo}}" alt="Dog Image"
+                     style="max-width: 100%; height: auto;"/>
+            </div>
+            <div>
+                <label>반려견 번호</label>
+                <span class="myPage_text" th:text="${dog.id} + '번'"></span>
+            </div>
+            <div>
+                <label>등록일</label>
+                <span class="myPage_text" th:text="${dog.regDate}"></span>
+            </div>
+            <div>
+                <label>수정일</label>
+                <span class="myPage_text" th:text="${dog.updateDate}"></span>
+            </div>
+            <div>
+                <label>이름</label>
+                <span class="myPage_text" th:text="(${dog.name != '이름 없음' ? dog.name : '이름 없음'})"></span>
+            </div>
+            <div>
+                <label>체중</label>
+                <span class="myPage_text" th:text="(${dog.weight != '모름' ? dog.weight + ' kg' : dog.weight})"></span>
+            </div>
+            <div>
+                <label>반려견 유형</label>
+                <span class="myPage_text" th:text="${dog.type}"></span>
+            </div>
+            <div>
+                <label>GPS 보유 여부</label>
+                <span class="myPage_text" th:if="${dog.comPortName==null}">Ⅹ</span>
+                <span class="myPage_text" th:if="${dog.comPortName!=null}">○</span>
+            </div>
+            <div class="myPage_text" th:if="${location!=null}" th:text="${location}"></div>
+            <div th:if="${dog.comPortName != null}">
+                <button class="upload_button"
+                        th:if="${gpsAlert != null && gpsAlert.getOnOff() == 0}"
+                        th:onclick="'location.href=\'/usr/gpsAlert/toggleOnOff?value=1&dogId=' + ${dog.id} + '\';'">GPS 끄기
+                </button>
+                <button class="upload_button"
+                        th:if="${gpsAlert != null && gpsAlert.getOnOff() == 1}"
+                        th:onclick="'location.href=\'/usr/gpsAlert/toggleOnOff?value=0&dogId=' + ${dog.id} + '\';'">GPS 켜기
+                </button>
+                <button class="upload_button"
+                        th:if="${locationChack == false}"
+                        th:onclick="'location.href=\'/usr/gpsAlert/add?dogId=' + ${dog.id} + '\';'">위치 등록
+                </button>
+                <button class="upload_button"
+                        th:if="${locationChack == true && gpsAlert != null && gpsAlert.getOnOff() == 0}"
+                        th:onclick="'location.href=\'/usr/gpsAlert/modify?dogId=' + ${dog.id} + '\';'">위치 수정
+                </button>
+                <button class="upload_button"
+                        th:if="${locationChack == true && gpsAlert != null && gpsAlert.getOnOff() == 0}"
+                        th:onclick="'deleteLocation(' + ${dog.id} + ')'">위치 삭제
+                </button>
+            </div>
+        </div>
+        <div class="upload_button_wrapper" th:if="${dog != null}">
+            <button class="upload_button" th:onclick="'location.href=\'../dog/modify?dogId=' + ${dog.id} + '\''">수정
+            </button>
+        </div>
+        <div class="upload_button_wrapper" th:if="${dog == null}">
+            <button class="upload_button" th:onclick="'location.href=\'../dog/add\''">등록</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

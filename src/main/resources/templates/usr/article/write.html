@@ -1,0 +1,88 @@
+<th:block th:replace="usr/common/head"/>
+<head>
+    <title>글 작성</title>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+    <link rel="stylesheet" href="/resource/css/article.css"/>
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script>
+        // Toast UI Editor 초기화
+        function initializeEditor() {
+            editor = new toastui.Editor({
+                el: document.querySelector('#editor'),
+                height: '400px',
+                initialEditType: 'wysiwyg', // WYSIWYG 모드로 설정
+                previewStyle: 'vertical',
+                initialValue: '',
+                hooks: {
+                    addImageBlobHook: function (blob, callback) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            callback(e.target.result, 'image');
+                        };
+                        reader.readAsDataURL(blob);
+                        return false; // 기본 이미지 삽입 동작 방지
+                    }
+                }
+            });
+        }
+
+        // 게시글 작성 제출 함수
+        function ArticleWrite__submit(form) {
+            form.title.value = form.title.value.trim(); // 제목 공백 제거
+
+            if (form.title.value.length === 0) {
+                alert('제목을 입력하세요');
+                return false; // 제목이 없으면 제출하지 않음
+            }
+
+            const content = editor.getHTML().trim(); // 편집기 내용을 HTML로 가져옴
+
+            if (content.length === 0) {
+                alert('내용을 입력하세요'); // 내용이 없으면 경고
+                return false; // 내용이 없으면 제출하지 않음
+            }
+
+            form.body.value = content; // 폼에 내용 저장
+            form.submit(); // 폼 제출
+        }
+
+        // 문서가 준비되면 에디터 초기화
+        document.addEventListener('DOMContentLoaded', initializeEditor);
+    </script>
+</head>
+<body>
+<div class="title">게시글 작성</div>
+<div class="article_body">
+    <form onsubmit="return ArticleWrite__submit(this);" th:action="@{/usr/article/doWrite}" method="post"
+          enctype="multipart/form-data">
+        <input type="hidden" name="body"/>
+        <input type="hidden" th:value="${currentId}">
+        <div class="tw-p-2 tw-flex tw-gap-2">
+            <div class="tw-flex tw-gap-2">
+                <div>게시판</div>
+                <div style="text-align: center;">
+                    <select name="boardId">
+                        <option value="" disabled th:selected="${boardId == null}">게시판을 선택해주세요.</option>
+                        <option th:value="1" th:text="'공지사항'" th:selected="${boardId == 1}"></option>
+                        <option th:value="2" th:text="'자유게시판'" th:selected="${boardId == 2}"></option>
+                        <option th:value="3" th:text="'Q & A'" th:selected="${boardId == 3}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="tw-flex tw-gap-2 tw-flex-grow">
+                <div>제목</div>
+                <input class="tw-w-full" name="title"
+                       autocomplete="off" type="text" placeholder="제목을 입력하세요"/>
+            </div>
+        </div>
+
+        <!-- Toast UI Editor 영역 -->
+        <div id="editor" style="height: 400px;"></div>
+
+        <button class="article_button tw-ml-auto tw-mt-5">작성</button>
+
+    </form>
+
+    <button class="article_button" type="button" onclick="history.back()">뒤로가기</button>
+</div>
+</body>

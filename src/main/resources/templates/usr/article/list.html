@@ -1,0 +1,135 @@
+<th:block th:replace="usr/common/head"/>
+<head>
+    <title>글 목록</title>
+    <link rel="stylesheet" href="/resource/css/article.css"/>
+</head>
+<body>
+<div class="title">게시글 목록</div>
+<div class="tw-flex tw-justify-center article_body">
+    <div class="board_bar tw-flex tw-gap-2 tw-flex-col tw-p-2">
+        <div class="article_button" th:text="|total : ${articlesCount}개|"></div>
+        <div th:class="${boardId == 0 ? 'article_button tw-bg-[#4D3E3E] tw-text-white' : 'article_button'}">
+            <a href="../article/list?boardId=0&page=1">전체 게시판</a>
+        </div>
+        <div th:class="${boardId == 1 ? 'article_button tw-bg-[#4D3E3E] tw-text-white' : 'article_button'}">
+            <a href="../article/list?boardId=1&page=1">공지사항</a>
+        </div>
+        <div th:class="${boardId == 2 ? 'article_button tw-bg-[#4D3E3E] tw-text-white' : 'article_button'}">
+            <a href="../article/list?boardId=2&page=1">자유게시판</a>
+        </div>
+        <div th:class="${boardId == 3 ? 'article_button tw-bg-[#4D3E3E] tw-text-white' : 'article_button'}">
+            <a href="../article/list?boardId=3&page=1">Q & A</a>
+        </div>
+        <div th:class="${boardId == 4 ? 'article_button tw-bg-[#4D3E3E] tw-text-white' : 'article_button'}">
+            <a href="../article/list?boardId=4&page=1">추천합니다</a>
+        </div>
+    </div>
+    <div class="article_list tw-flex-grow tw-h-[500px]">
+        <form th:action="@{../article/list}" class="tw-p-2">
+            <div class="tw-flex tw-justify-between tw-items-center">
+                <div class="tw-flex tw-gap-2">
+                    <input type="hidden" name="boardId" th:value="${param.boardId != null ? param.boardId : 0}"/>
+                    <select class="tw-h-[40px]" name="searchKeywordTypeCode">
+                        <option th:value="${param.searchKeywordTypeCode != null ? param.searchKeywordTypeCode : '전체'}"
+                                th:text="${param.searchKeywordTypeCode != null ? param.searchKeywordTypeCode : '전체'}"></option>
+                        <option value="전체">전체</option>
+                        <option value="제목">제목</option>
+                        <option value="내용">내용</option>
+                        <option value="작성자">작성자</option>
+                    </select>
+                    <label class="tw-flex tw-items-center tw-gap-2">
+                        <input type="text" placeholder="Search" name="searchKeyword" th:value="${param.searchKeyword}"
+                               style="height: 40px;"/>
+                        <button type="submit" style="width: 30px; height: 30px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                 class="h-4 w-4 opacity-70">
+                                <path fill-rule="evenodd"
+                                      d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </label>
+                </div>
+
+                <div class="tw-p-2" th:with="paginationLen=3,
+      startPage=${page - paginationLen >= 1 ? page - paginationLen : 1},
+      endPage=${page + paginationLen <= pagesCount ? page + paginationLen : pagesCount},
+      baseUri='?boardId=' + (${param.boardId != null ? param.boardId : 0})
+              + '&searchKeywordTypeCode=' + (${param.searchKeywordTypeCode != null ? param.searchKeywordTypeCode : '전체'})
+              + '&searchKeyword=' + (${param.searchKeyword != null ? param.searchKeyword : ''})"
+                     th:if="${articlesCount != 0}"
+                     style="display: flex; justify-content: center; align-items: center;">
+
+                    <!-- 처음 페이지로 이동 버튼 -->
+                    <div th:if="${startPage > 1}">
+                        <a class="tw-text-[30px] tw-pl-[10px] tw-pr-[10px]" th:href="@{${baseUri} + '&page=1'}">1</a>
+                    </div>
+                    <div th:if="${startPage > 2}">
+                        <button class="tw-text-[30px] tw-pl-[10px] tw-pr-[10px]">...</button>
+                    </div>
+
+                    <!-- 페이지 번호 반복 출력 -->
+                    <div th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                        <a class="tw-text-[30px] tw-pl-[10px] tw-pr-[10px]"
+                           th:classappend="${page == i ? 'tw-bg-white tw-rounded-full' : ''}"
+                           th:href="@{${baseUri} + '&page=' + ${i}}" th:text="${i}"></a>
+                    </div>
+
+                    <!-- 마지막 페이지로 이동 버튼 -->
+                    <div th:if="${endPage < pagesCount - 1}">
+                        <button class="tw-text-[30px] tw-pl-[10px] tw-pr-[10px]">...</button>
+                    </div>
+                    <div th:if="${endPage < pagesCount && pagesCount != 0}">
+                        <a class="tw-text-[30px] tw-pl-[10px] tw-pr-[10px]"
+                           th:href="@{${baseUri} + '&page=' + ${pagesCount}}"
+                           th:text="${pagesCount}"></a>
+                    </div>
+                </div>
+
+                <a class="article_button" th:href="@{../article/write}">글 작성</a>
+            </div>
+        </form>
+        <div class="tw-p-10">
+            <table border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                <tr>
+                    <th style="text-align: center;">번호</th>
+                    <th style="text-align: center;">제목</th>
+                    <th style="text-align: center;">작성자</th>
+                    <th style="text-align: center;">작성일</th>
+                    <th style="text-align: center;">조회</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 게시글 목록이 있는 경우 -->
+                <tr th:each="article : ${articles}" class="hover" th:if="${articles != null}">
+                    <td style="text-align: center;" th:text="${article.id}"></td>
+                    <td style="text-align: center;">
+                        <a class="tw-hover:underline"
+                           th:href="@{'../article/detail?id=' + ${article.id}}"
+                           th:text="${article.title.substring(0, 35)}"
+                           th:if="${article.title.length()} > 35">
+                        </a>
+                        <a class="tw-hover:underline"
+                           th:href="@{'../article/detail?id=' + ${article.id}}"
+                           th:text="${article.title}"
+                           th:if="${article.title.length()} <= 35">
+                        </a>
+                        <span th:text="' [ ' + ${article.extra__repliesCount} + ' ]'" th:if="${article.extra__repliesCount} > 0"
+                              style="color: red; font-weight: bold;"></span>
+                    </td>
+                    <td style="text-align: center;" th:text="${article.extra__writer}"></td>
+                    <td style="text-align: center;" th:text="${article.regDate.substring(0, 10)}"></td>
+                    <td style="text-align: center;" th:text="${article.hitCount}"></td>
+                </tr>
+
+                <!-- 게시글이 없는 경우 -->
+                <tr th:if="${articles.size() == 0}">
+                    <td colspan="6" style="text-align: center;">게시글이 없습니다</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>

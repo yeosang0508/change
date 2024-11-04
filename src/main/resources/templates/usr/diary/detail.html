@@ -1,0 +1,53 @@
+<div class = "header">
+    <th:block th:replace="usr/common/head"/>
+</div>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>PetdiaryDetail</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resource/css/diary/DiaryDetail.css">
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <link href="https://unpkg.com/@fullcalendar/daygrid@5.10.1/main.css" rel="stylesheet"/>
+    <script src="https://unpkg.com/@fullcalendar/core@5.10.1/main.js"></script>
+    <script src="https://unpkg.com/@fullcalendar/daygrid@5.10.1/main.js"></script>
+</head>
+
+<body>
+
+<div class="container mx-auto p-4 ">
+
+    <p>제목:<h1 class="text-2xl font-bold" th:text="${diary.title}"></h1>
+
+    <div class="diary-details mt-4">
+
+        <p>번호:<strong th:text="${diary.id}"></strong> </p>
+        <p>작성자:<strong th:text="${diary.extra__writer}"></strong> </p>
+        <p>작성일:<strong th:text="${diary.regDate}"></strong></p>
+        <p>복용 시작일:<strong th:text="${diary.startDate}"></strong></p>
+
+        <p>종료일:<strong th:text=" ${diary.endDate}"></strong></p>
+        <p>소요 시간:<strong th:text="${diary.takingTime}"></strong> </p>
+        <p>정보:<strong th:text="${diary.information}"></strong> </p>
+
+        <div class="diary-image mt-2">
+            <img th:src="${diary.imagePath}" alt="다이어리 이미지" style="width: 400px; height: 400px;">
+        </div>
+
+        <p class="mt-4" th:text="${diary.body}"></p>
+
+    </div>
+
+    <div class="submitButton actions mt-6">
+        <a th:href="@{|/usr/diary/modify/${diary.id}|}" class="btn bg-blue-500 text-white py-2 px-4 rounded">수정하기</a>
+        <form th:action="@{|/usr/diary/delete/${diary.id}|}" method="post" style="display:inline;">
+            <button type="submit" class="btn bg-red-500 text-white py-2 px-4 rounded" onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</button>
+        </form>
+        <a href="/usr/diary/list" class="btn bg-gray-500 text-white py-2 px-4 rounded">목록으로 돌아가기</a>
+    </div>
+
+</div>
+
+</body>
+</html>

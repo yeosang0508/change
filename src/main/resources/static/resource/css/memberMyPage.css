@@ -1,0 +1,73 @@
+body {
+    background-color: #FFF3CD;
+    color: #4D3E3E;
+    white-space: normal;
+    word-break: keep-all;
+}
+
+.container {
+    display: flex;
+    align-items: flex-start; /* 모든 자식 요소를 위로 정렬 */
+    gap: 20px; /* 두 개의 섹션 간의 간격 */
+    margin: 0 auto; /* container 자체를 가운데 정렬 */
+    max-width: 1600px; /* 최대 넓이를 지정하여 중앙에 정렬되는 폭을 제한 */
+    padding: 20px;
+}
+
+.title {
+    text-align: center;
+    font-size: 50px;
+    padding-top: 70px;
+}
+
+.myPage, .dogPage {
+    display: inline-block;
+    /*  border: 1px solid; */
+    width: 50%; /* 전체 폭을 사용할 수 있게 설정 */
+    box-sizing: border-box; /* 패딩과 보더를 포함한 전체 크기 계산 */
+}
+
+.profile_title{
+    display: inline-block;
+}
+
+.profile {
+    border-bottom: 1px solid;
+    margin: auto;
+    width: 100%;
+    font-weight: bold;
+}
+
+.dogPage_image{
+    border-radius: 10px;
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.myPage_text{
+    padding: 10px;
+    font-weight: bold;
+}
+
+.page_body{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+}
+
+.upload_button_wrapper {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.upload_button {
+    background: RGB(105, 105, 105);
+    color: white;
+    border-radius: 10px;
+    height: 40px;
+    width: 100px;
+}

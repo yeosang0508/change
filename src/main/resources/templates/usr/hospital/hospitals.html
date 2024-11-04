@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>병원 목록</title>
+</head>
+<body>
+<h1>병원 목록</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>병원 ID</th>
+        <th>병원 이름</th>
+        <th>소재지 전화번호</th>
+        <th>지번 주소</th>
+        <th>도로명 주소</th>
+        <th>위도</th>
+        <th>경도</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="hospital : ${hospitals}">
+        <td th:text="${hospital.id}"></td>
+        <td th:text="${hospital.name}"></td>
+        <td th:text="${hospital.callNumber}"></td>
+        <td th:text="${hospital.jibunAddress}"></td>
+        <td th:text="${hospital.roadAddress}"></td>
+        <td th:text="${hospital.latitude}"></td>
+        <td th:text="${hospital.longitude}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

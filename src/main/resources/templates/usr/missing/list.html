@@ -1,0 +1,105 @@
+<th:block th:replace="usr/common/head"/>
+<head>
+    <title>Lost Pet Report & Alerts</title>
+    <link rel="stylesheet" href="/resource/css/missingList.css"/>
+</head>
+<body>
+<script src="/resource/js/missingList.js"></script>
+<div class="title">Lost Pet Report & Alerts</div>
+<div class="profile tw-p-5">
+    <div class="profile_title" th:text="|total : ${totalCnt}개|">페이지 수</div>
+    <div class="tw-pl-5">
+        <select class="str tw-border-box tw-p-2" id="str" name="str" required
+                onchange="location.href='list?page=1&str=' + this.value;">
+            <option value="${str}" th:text="${str}"></option>
+            <option th:if="${str != '전체'}" value="전체">전체</option>
+            <option th:if="${str != '인천광역시'}" value="인천광역시">인천광역시</option>
+            <option th:if="${str != '서울특별시'}" value="서울특별시">서울특별시</option>
+            <option th:if="${str != '경기도'}" value="경기도">경기도</option>
+            <option th:if="${str != '강원도'}" value="강원도">강원도</option>
+            <option th:if="${str != '충청남도'}" value="충청남도">충청남도</option>
+            <option th:if="${str != '세종특별자치시'}" value="세종특별자치시">세종특별자치시</option>
+            <option th:if="${str != '대전광역시'}" value="대전광역시">대전광역시</option>
+            <option th:if="${str != '충청북도'}" value="충청북도">충청북도</option>
+            <option th:if="${str != '전라북도'}" value="전라북도">전라북도</option>
+            <option th:if="${str != '대구광역시'}" value="대구광역시">대구광역시</option>
+            <option th:if="${str != '울산광역시'}" value="울산광역시">울산광역시</option>
+            <option th:if="${str != '경상북도'}" value="경상북도">경상북도</option>
+            <option th:if="${str != '전라남도'}" value="전라남도">전라남도</option>
+            <option th:if="${str != '광주광역시'}" value="광주광역시">광주광역시</option>
+            <option th:if="${str != '경상남도'}" value="경상남도">경상남도</option>
+            <option th:if="${str != '부산광역시'}" value="부산광역시">부산광역시</option>
+            <option th:if="${str != '제주특별자치도'}" value="제주특별자치도">제주특별자치도</option>
+        </select>
+    </div>
+    <a class="misssing_write" href="../missing/write">글 작성</a>
+</div>
+<div class="misssing_list">
+    <a class="misssing_item tw-ml-[12px] tw-mb-[12px]" th:href="@{'../missing/detail?missingId='+${missing.id}}" th:each="missing : ${missings}">
+        <img th:src="@{${missing.photo}}" alt="Misssing Image" class="misssing_image"/>
+        <label class="tw-pl-[9px]">이름</label>
+        <div th:text="${missing.name}" class="tw-pl-[9px] tw-pb-[9px] tw-inline-block tw-font-bold"></div>
+        <br/>
+        <label class="tw-pl-[9px]">정보</label>
+        <div th:if="${missing.age != '불명'}"  th:text="|${missing.gender} / ${missing.age}개월 / ${missing.breed}|"
+             class="tw-pl-[9px] tw-pb-[9px] tw-inline-block tw-font-bold"></div>
+        <div th:if="${missing.age == '불명'}" th:text="|${missing.gender} / ${missing.age} / ${missing.breed}|"
+             class="tw-pl-[9px] tw-pb-[9px] tw-inline-block tw-font-bold"></div>
+        <br/>
+        <label class="tw-pl-[9px]">실종 날짜</label>
+        <div th:text="|${missing.reportDate.substring(0, 13)}시경|"
+             class="tw-pl-[9px] tw-pb-[9px] tw-inline-block tw-font-bold"></div>
+        <br/>
+        <label class="tw-pl-[9px]">실종 장소</label>
+        <div th:text="${missing.missingLocation.split(' ')[0]}"
+             class="tw-pl-[9px] tw-pb-[9px] tw-inline-block tw-font-bold"></div>
+        <br/>
+    </a>
+</div>
+
+<div class="pagination tw-flex tw-justify-center tw-items-center" th:if="${totalPage != 0}">
+    <a class="pagination_left tw-p-[10px]" th:href="@{'list?page=' + ${lpage} + 'str='+${str}}">
+        <i class="fa-solid fa-caret-left" style="font-size: 70px;"></i>
+    </a>
+
+    <div class="tw-flex tw-justify-center tw-items-center" th:block
+         th:with="paginationLen=3, startPage=${page - paginationLen >= 1} ? ${page - paginationLen} : 1, endPage=${page + paginationLen <= totalPage} ? ${page + paginationLen} : ${totalPage}">
+        <!-- 처음 페이지로 이동 -->
+        <div th:if="${startPage > 1}">
+            <a class="tw-text-[50px] tw-pl-[10px] tw-pr-[10px]"
+               th:href="@{'list?page=1&' + 'str='+${str}}">1</a>
+        </div>
+
+        <!-- 중간 생략 버튼 -->
+        <div th:if="${startPage > 2}">
+            <button class="tw-text-[50px] tw-pl-[20px] tw-pr-[20px]">...</button>
+        </div>
+
+        <!-- 페이지 번호 목록 -->
+        <div th:each="i : ${#numbers.sequence(startPage, endPage)}">
+            <a class="tw-text-[50px] tw-pl-[20px] tw-pr-[20px]"
+               th:classappend="${page == i} ? 'tw-bg-white tw-rounded-full'" th:href="@{'list?page=' + ${i} + '&str='+${str}}"
+               th:text="${i}"></a>
+        </div>
+
+        <!-- 중간 생략 버튼 -->
+        <div th:if="${endPage < totalPage - 1}">
+            <button class="tw-text-[50px] tw-pl-[20px] tw-pr-[20px]">...</button>
+        </div>
+
+        <!-- 마지막 페이지로 이동 -->
+        <div th:if="${endPage < totalPage}">
+            <a class="tw-text-[50px] tw-pl-[20px] tw-pr-[20px]"
+               th:href="@{'list?page=' + ${totalPage} + '&str='+${str}}"
+               th:text="${totalPage}"></a>
+        </div>
+    </div>
+
+    <a class="pagination_right tw-p-[10px]" th:href="@{'list?page=' + ${rpage} + '&str='+${str}}">
+        <i class="fa-solid fa-caret-right" style="font-size: 70px;"></i>
+    </a>
+</div>
+
+
+</body>
+</html>

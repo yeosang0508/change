@@ -1,0 +1,212 @@
+html {
+    background-color: #FFFEF0;
+}
+
+#heads {
+    padding-bottom: 50px;
+}
+
+/* body 요소에 좌우 여백 추가 */
+#shopbody {
+    margin: 0 100px;
+    margin-top: 50px;
+}
+
+/* 팝업 창 스타일 */
+.modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* 배경 어둡게 */
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #F2F2EB;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 500px;
+    border-radius: 10px;
+}
+
+.cart-popup .modal-content {
+    background-color: #F2F2EB;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 500px;
+    border-radius: 10px;
+    max-height: 80%; /* 최대 높이 설정 */
+    overflow-y: auto; /* 내용이 많을 경우 스크롤 가능 */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Flexbox를 사용하여 두 요소를 정렬하는 부모 요소 */
+.flex-container {
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 양쪽 끝으로 배치 */
+    margin: 20px; /* 여백 추가 */
+}
+
+/* calendar 스타일 */
+#calendar {
+    border: 1px solid #ccc;
+    height: 600px; /* 자동 높이 설정 */
+    width: 100%; /* 적절한 너비 설정 */
+    border-radius: 5px;
+    background-color: #F2F2EB;
+    padding: 10px; /* 내부 여백 추가 */
+    position: relative; /* 자식 요소의 절대 위치를 위한 상대 위치 */
+}
+.fc-toolbar .fc-button {
+    background-color: #4D3E3E; /* 원하는 색상으로 변경 */
+    color: white; /* 글자 색상 */
+}
+.fc-toolbar .fc-button:hover {
+    background-color: #FFF3CD; /* 호버 시 색상 변경 */
+    color: #4D3E3E;
+}
+
+/* list 스타일 */
+#List {
+    border: 1px solid #ccc;
+    height: 600px;
+    width: 100%;
+    border-radius: 5px; /* 네모박스에 모서리 둥글게 */
+    background-color: #F2F2EB;
+    max-height: 600px; /* 스크롤을 적용할 최대 높이 설정 */
+    overflow-y: auto;  /* 세로 스크롤 활성화 */
+}
+
+/* 이미지 크기를 150px로 설정 */
+.product-image {
+    width: auto; /* 너비는 자동으로 비율에 맞게 조정 */
+    height: 150px; /* 높이를 150px로 설정 */
+}
+
+/* 결과 리스트 스타일 */
+#resultContainer {
+    list-style-type: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; /* 패딩 제거 */
+    border: 1px solid #ccc; /* 전체 리스트에 테두리 추가 */
+    border-radius: 5px; /* 네모박스에 모서리 둥글게 */
+    overflow: hidden; /* 내부 내용이 넘치지 않게 설정 */
+    background-color: #F2F2EB;
+}
+
+/* 리스트 항목 스타일 */
+.product-item {
+    padding: 10px; /* 내부 여백 설정 */
+    border-bottom: 1px solid #ccc; /* 항목 사이에 선 추가 */
+    display: flex; /* Flexbox 사용 */
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+/* 마지막 항목에서 하단 선 제거 */
+.product-item:last-child {
+    border-bottom: none; /* 마지막 항목의 하단 선 제거 */
+}
+
+/* 제목과 가격을 포함하는 컨테이너 스타일 */
+.product-info {
+    margin-left: 10px; /* 이미지와의 간격 설정 */
+}
+
+/* 링크 스타일 */
+.product-info a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: black; /* 텍스트 색상 (검정색) */
+}
+
+/* 가격 스타일 */
+.product-price {
+    font-size: 1.5em; /* 글자 크기를 H3 정도로 설정 (약 1.5em) */
+    margin: 0; /* 기본 마진 제거 */
+}
+
+/* 페이지네이션 스타일 */
+.pagination {
+    margin-top: 20px; /* 페이지네이션과 상품 리스트 간격 */
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+}
+
+.page-item {
+    margin: 0 5px; /* 페이지 아이템 간격 */
+    cursor: pointer; /* 커서 포인터 */
+    padding: 5px 10px; /* 여백 설정 */
+    border: 1px solid #ccc; /* 테두리 */
+    border-radius: 5px; /* 모서리 둥글게 */
+}
+
+button {
+    background: none; /* 버튼 배경 제거 */
+    border: none; /* 버튼 테두리 제거 */
+    cursor: pointer; /* 커서 포인터 */
+    padding: 5px 10px; /* 여백 설정 */
+}
+
+#sortButtons {
+    display: flex;
+    justify-content: flex-end; /* 버튼들을 오른쪽에 배치 */
+    position: relative;
+    top: 25px; /* 요소를 10px 아래로 이동 */
+}
+/* 버튼 기본 스타일 */
+#sortButtons button {
+    font-weight: normal;
+}
+
+/* 버튼이 active일 때 굵게 표시 */
+#sortButtons button.active {
+    font-weight: bold;
+}
+
+table {
+    width: 100%; /* 테이블 너비 설정 */
+    border-collapse: collapse; /* 경계선 겹침 제거 */
+}
+
+.sort-arrow {
+    margin-left: 5px;
+    visibility: hidden; /* 기본적으로 숨김 */
+}
+
+.sort-arrow.visible {
+    visibility: visible; /* 클릭 시 보이도록 설정 */
+}
+
+th {
+    width: 20%; /* 각 th 요소의 너비를 20%로 설정 */
+    padding: 10px; /* 각 th 요소의 내부 여백 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    border: 1px solid #ccc; /* 셀 경계선 */
+}
+
+td {
+    padding: 10px; /* 각 td 요소의 내부 여백 */
+    border: 1px solid #ccc; /* 셀 경계선 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+h2 {
+    margin-bottom: 10px; /* 제목과 달력/리스트 사이의 간격 조정 */
+    text-align: left;    /* 왼쪽 정렬 */
+}
