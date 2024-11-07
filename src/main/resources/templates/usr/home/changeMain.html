@@ -37,8 +37,21 @@
             });
         });
 
+
+        document.addEventListener('scroll', () => {
+            const loginButton = document.getElementById('login-button');
+            const hospitalButton = document.getElementById('hospital-button');
+
+            if (window.scrollY > 100) { // 스크롤이 100px 이상일 때 둥근 아이콘으로 변경
+                loginButton.classList.add('rounded');
+                hospitalButton.classList.add('rounded');
+            } else {
+                loginButton.classList.remove('rounded');
+                hospitalButton.classList.remove('rounded');
+            }
+        });
+
     </script>
-</div>
 
 <script src="/resource/js/main.js"></script>
 
@@ -85,52 +98,31 @@
 </main>
 
 <!-- 오른쪽 고정 버튼 -->
-<div id="buttonContainer"
-     class="tw-fixed tw-bottom-10 tw-right-10 tw-flex tw-flex-col tw-items-end tw-gap-4 transition-all">
-    <!-- 큰 버튼: 기본 상태에서 표시됨 -->
-    <div id="largeButtons" class="tw-flex tw-flex-col tw-items-end tw-gap-4">
-        <!-- 로그인/회원가입 버튼 -->
-        <div class="button-style tw-flex tw-items-center tw-gap-2 tw-p-4 tw-rounded-full tw-shadow-md tw-border tw-cursor-pointer hover:tw-shadow-lg tw-h-16 tw-w-48"
-             style="border-color: #7DAF82; background-color: transparent;">
-            <span class="tw-text-gray-700 tw-font-medium">
-                <i class="bi bi-person-fill" style="color: #7DAF82;"></i> &nbsp; 로그인/회원가입
-            </span>
-        </div>
+    <div id="buttonContainer"
+         class="tw-fixed tw-bottom-10 tw-right-10 tw-flex tw-flex-col tw-items-end tw-gap-4 transition-all">
+        <div id="Button" class="tw-flex tw-flex-col tw-items-end tw-gap-4">
+            <!-- 로그인/회원가입 버튼 -->
+            <div id="login-button" class="icon button-style tw-flex tw-items-center tw-justify-center tw-p-4 tw-rounded-full tw-shadow-md tw-border tw-cursor-pointer hover:tw-shadow-lg tw-h-16 tw-w-48 transition-all"
+                 style="border-color: #7DAF82; ">
+                <i class="bi bi-person-fill tw-text-gray-700 tw-text-2xl"></i>
+                <span class="tw-text-gray-700 tw-font-medium" style="margin-left: 8px;">로그인/회원가입</span>
+            </div>
 
-        <!-- 24시 병원 버튼 -->
-        <div class="button-style tw-flex tw-items-center tw-gap-2 tw-p-4 tw-rounded-full tw-shadow-md tw-border tw-cursor-pointer hover:tw-shadow-lg tw-h-16 tw-w-48"
-             style="border-color: #7DAF82; background-color: transparent;">
-            <span class="tw-text-gray-700 tw-font-medium">
-                <i class="bi bi-moon" style="color: #7DAF82;"></i> &nbsp; 24시 병원
-            </span>
-        </div>
+            <!-- 24시 병원 버튼 -->
+            <div id="hospital-button" class="button-style tw-flex tw-items-center tw-justify-center tw-p-4 tw-rounded-full tw-shadow-md tw-border tw-cursor-pointer hover:tw-shadow-lg tw-h-16 tw-w-48 transition-all"
+                 style="border-color: #7DAF82; ">
+                <i class="bi bi-moon tw-text-gray-700 tw-text-2xl"></i>
+                <span class="tw-text-gray-700 tw-font-medium" style="margin-left: 8px;">24시 병원</span>
+            </div>
 
-        <!-- 알람 버튼 -->
-        <div class="button-style tw-flex tw-items-center tw-justify-center tw-w-16 tw-h-16 tw-rounded-full tw-bg-[#7DAF82] tw-cursor-pointer">
-            <i class="bi bi-bell-fill tw-text-white tw-text-2xl"></i>
+            <!-- 알람 버튼 -->
+            <div class="button-style tw-flex tw-items-center tw-justify-center tw-w-16 tw-h-16 tw-rounded-full tw-bg-[#7DAF82] tw-cursor-pointer">
+                <i class="bi bi-bell-fill tw-text-white tw-text-2xl"></i>
+            </div>
         </div>
     </div>
 
-    <!-- 작은 아이콘 버튼: 스크롤 시 표시됨 -->
-    <div id="smallButtons" class="tw-hidden tw-flex tw-flex-col tw-items-center tw-gap-4">
-        <!-- 로그인/회원가입 버튼 -->
-        <div class="button-style tw-flex tw-items-center tw-justify-center tw-w-16 tw-h-16 tw-rounded-full tw-bg-[#7DAF82] tw-cursor-pointer">
-            <i class="bi bi-person-fill tw-text-white tw-text-xl"></i>
-        </div>
-
-        <!-- 24시 병원 버튼 -->
-        <div class="button-style tw-flex tw-items-center tw-justify-center tw-w-16 tw-h-16 tw-rounded-full tw-bg-[#7DAF82] tw-cursor-pointer">
-            <i class="bi bi-moon tw-text-white tw-text-xl"></i>
-        </div>
-
-        <!-- 알람 버튼 -->
-        <div class="button-style tw-flex tw-items-center tw-justify-center tw-w-16 tw-h-16 tw-rounded-full tw-bg-[#7DAF82] tw-cursor-pointer">
-            <i class="bi bi-bell-fill tw-text-white tw-text-xl"></i>
-        </div>
-    </div>
-</div>
-
-<!-- 푸터 -->
+    <!-- 푸터 -->
 <footer class="tw-w-full tw-bg-gray-200 tw-py-6 tw-shadow-inner tw-flex tw-items-center tw-justify-center">
     <p class="tw-text-sm tw-text-gray-600">© 2024 TailsRoute. All rights reserved.</p>
 </footer>
